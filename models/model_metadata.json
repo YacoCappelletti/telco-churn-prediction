@@ -1,0 +1,88 @@
+{
+  "model_name": "telco_churn_classifier",
+  "model_version": "1.0.0",
+  "approved_target": "Churn",
+  "problem_type": "classification",
+  "target_approval_reference": "docs/json/target_approval.json",
+  "training_timestamp": "2026-09-13T17:27:41.291068+00:00",
+  "selected_model": "logistic_regression",
+  "feature_list": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges",
+    "SeniorCitizen",
+    "gender",
+    "Partner",
+    "Dependents",
+    "PhoneService",
+    "MultipleLines",
+    "InternetService",
+    "OnlineSecurity",
+    "OnlineBackup",
+    "DeviceProtection",
+    "TechSupport",
+    "StreamingTV",
+    "StreamingMovies",
+    "Contract",
+    "PaperlessBilling",
+    "PaymentMethod"
+  ],
+  "preprocessing_summary": {
+    "numeric": "median imputation + standard scaling (tenure, MonthlyCharges, TotalCharges, SeniorCitizen)",
+    "categorical": "one-hot encoding, unknown categories ignored (15 service/contract/payment columns)",
+    "total_features_after_encoding": 45
+  },
+  "validation_metrics": {
+    "accuracy": 0.8027,
+    "precision": 0.6579,
+    "recall": 0.5348,
+    "f1": 0.59,
+    "roc_auc": 0.836,
+    "average_precision": 0.6424
+  },
+  "cv_metrics": {
+    "accuracy": {
+      "mean": 0.8026,
+      "std": 0.0108
+    },
+    "precision": {
+      "mean": 0.6508,
+      "std": 0.0298
+    },
+    "recall": {
+      "mean": 0.5558,
+      "std": 0.0241
+    },
+    "f1": {
+      "mean": 0.599,
+      "std": 0.0197
+    },
+    "roc_auc": {
+      "mean": 0.8481,
+      "std": 0.0107
+    },
+    "average_precision": {
+      "mean": 0.6665,
+      "std": 0.0249
+    }
+  },
+  "test_metrics": {
+    "accuracy": 0.8055,
+    "precision": 0.6572,
+    "recall": 0.5588,
+    "f1": 0.604,
+    "roc_auc": 0.8421,
+    "average_precision": 0.6343
+  },
+  "library_versions": {
+    "pandas": "3.0.0",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.5.3"
+  },
+  "notes_and_limitations": [
+    "Single-snapshot data: no temporal validation possible.",
+    "Moderate class imbalance (26.5% positive): PR-AUC used as primary metric.",
+    "Probabilities used for ranking with risk bands (high >= 0.60, medium >= 0.35).",
+    "TotalCharges kept as feature with documented collinearity vs tenure."
+  ]
+}

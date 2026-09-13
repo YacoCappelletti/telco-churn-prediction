@@ -1,0 +1,11 @@
+venv/
+.git/
+.gitignore
+__pycache__/
+*.pyc
+.pytest_cache/
+.playwright-mcp/
+.env
+data/processed/
+data/external/
+PLAN.md

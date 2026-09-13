@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-09-13T17:27:31.336312+00:00",
+  "model": "DummyClassifier(strategy='prior')",
+  "target": "Churn",
+  "positive_class": "Yes",
+  "cv_train": {
+    "accuracy": {
+      "mean": 0.7347,
+      "std": 0.0005
+    },
+    "precision": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "recall": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "f1": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "roc_auc": {
+      "mean": 0.5,
+      "std": 0.0
+    },
+    "average_precision": {
+      "mean": 0.2653,
+      "std": 0.0005
+    }
+  },
+  "validation": {
+    "accuracy": 0.7346,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "roc_auc": 0.5,
+    "average_precision": 0.2654
+  },
+  "note": "Floor metric: any candidate model must beat these on the primary metric (average_precision)."
+}

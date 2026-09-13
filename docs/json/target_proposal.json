@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-09-13T17:24:46.379673+00:00",
+  "recommended_target": "Churn",
+  "alternative_targets": [
+    "tenure",
+    "MonthlyCharges",
+    "TotalCharges"
+  ],
+  "problem_type": "classification",
+  "positive_class": "Yes",
+  "evaluation_criteria": [
+    "alignment_with_business_problem",
+    "business_relevance",
+    "actionability",
+    "availability_at_prediction_time",
+    "data_quality",
+    "missing_values",
+    "data_type_consistency",
+    "definition_reliability",
+    "outliers_inconsistent_values",
+    "class_balance",
+    "data_leakage",
+    "temporal_consistency",
+    "ethical_legal_restrictions",
+    "ml_feasibility"
+  ],
+  "candidate_evaluation": [
+    {
+      "name": "Churn",
+      "type": "binary flag (Yes/No)",
+      "alignment": "Directly matches the primary problem (P1): customer attrition and recurring-revenue protection.",
+      "relevance": "Highest: 26.5% of the base churns and takes 30.5% of MRR ($139K/mo) with it.",
+      "actionability": "High: probability scores map directly to retention offers, call prioritization and budget weighting by revenue at risk.",
+      "availability": "All candidate features (contract, services, payment, charges, tenure) are customer attributes known while the account is active.",
+      "data_quality": "No missing values, consistent Yes/No domain, no outliers (flag).",
+      "class_balance": "Moderate imbalance: 26.5% positive - manageable with stratified splits and imbalance-aware metrics (PR-AUC).",
+      "leakage": "It is the outcome itself; as long as it is used as the target (never as a feature), leakage is by construction absent. No post-outcome fields exist in the dataset.",
+      "temporal_consistency": "Single-snapshot flag; definition ('customer left within observation window') is uniform across rows.",
+      "ethics": "No sensitive attributes involved in the outcome; gender exists but is not needed for the target definition.",
+      "feasibility": "Binary classification is standard, well supported, and deliverable as an API (probability) + app + dashboard."
+    },
+    {
+      "name": "tenure",
+      "type": "integer months (0-72)",
+      "alignment": "Indirect: retention duration, but not the primary revenue-leak problem.",
+      "relevance": "Medium: duration matters, but the business question is who leaves and what revenue leaves with them.",
+      "actionability": "Medium: a predicted tenure band is less directly usable for retention offers than a churn probability.",
+      "availability": "Known at prediction time.",
+      "data_quality": "Complete, integer, well-formed (11 zero-tenure new customers).",
+      "class_balance": "Not applicable (regression); distribution is flat with a month-1 spike.",
+      "leakage": "None.",
+      "temporal_consistency": "Uniform definition.",
+      "ethics": "None.",
+      "feasibility": "Feasible regression / survival task, but weaker business fit than churn classification."
+    },
+    {
+      "name": "MonthlyCharges",
+      "type": "float USD (18.25-118.75)",
+      "alignment": "Weak: price is a lever, not an outcome the business needs to predict.",
+      "relevance": "Low: predicting what a customer would pay is a pricing problem, not the identified churn problem.",
+      "actionability": "Low: prediction does not change decisions.",
+      "availability": "Known at prediction time.",
+      "data_quality": "Clean, no missing.",
+      "class_balance": "Not applicable.",
+      "leakage": "None.",
+      "temporal_consistency": "Uniform.",
+      "ethics": "None.",
+      "feasibility": "Feasible regression but low business value as a target."
+    },
+    {
+      "name": "TotalCharges",
+      "type": "float USD (accumulated billing)",
+      "alignment": "Weak: accumulated value is a consequence of tenure, not an actionable outcome.",
+      "relevance": "Low-medium: interesting for value estimation, not for the churn problem.",
+      "actionability": "Low.",
+      "availability": "Only meaningful for existing customers; ~0 for brand-new customers.",
+      "data_quality": "11 implicit blanks (0.16%), right-skewed, requires cleaning.",
+      "class_balance": "Not applicable.",
+      "leakage": "Strong proxy risk: correlates with tenure x MonthlyCharges; encodes past history rather than future behavior.",
+      "temporal_consistency": "Cumulative measure - depends on when the snapshot is taken.",
+      "ethics": "None.",
+      "feasibility": "Feasible regression but weak alignment and leakage concerns."
+    }
+  ],
+  "business_justification": "The problem statement identifies customer churn as the primary problem (P1), and the business analysis quantified its impact: 26.5% of customers churn, taking 30.5% of monthly recurring revenue ($139K/mo, ~$1.67M annualized) with them. A churn probability directly powers the four recommended levers (contract migration, onboarding prioritization, fiber protection bundling, payment migration) by ranking accounts by expected risk x revenue at risk.",
+  "technical_justification": "Binary classification with all-tabular features; moderate class imbalance (~26.5% positive) is manageable with stratified splits and PR-AUC-style metrics; probability outputs support threshold tuning to business trade-offs (retention capacity vs catch rate). Feature availability at scoring time is guaranteed because every feature is a current-customer attribute.",
+  "data_quality_justification": "Churn has zero missing values and a consistent Yes/No domain. The only quality issue in the dataset (11 blank TotalCharges strings) affects a feature, not the target, and has a documented cleaning rule (impute tenure x MonthlyCharges). No outliers or inconsistent values exist in the flag.",
+  "data_dictionary_evidence": "data_dictionary.md marks Churn as the only outcome-like Status flag (Yes: 1,869 / No: 5,174), flags it feature_candidate=False (leakage if used as a feature) and lists it as a Phase 3 target candidate.",
+  "data_quality_evidence": "data_quality_report.md records the 26.54% / 73.46% split with imbalance ratio 2.77:1 (moderate), and confirms no missing values in Churn, no duplicated rows and no constant columns.",
+  "business_analysis_evidence": "business_analysis_report.md quantifies the churn exposure: $139,131/mo revenue churned (30.5% of MRR), month-to-month contracts at 42.7% churn, first-year customers generating 55.5% of churn, fiber at 41.9% and e-check x paperless at 49.8% - all evidencing churn as the primary business problem and the segments a churn model must score.",
+  "assumptions": [
+    "The Churn flag is defined uniformly for all customers (left within the observation window).",
+    "The snapshot is representative of the current customer population.",
+    "Retention actions will use predicted probabilities for ranking, with thresholds tuned to campaign capacity."
+  ],
+  "risks": [
+    "Moderate class imbalance: naive accuracy would overstate performance; use stratified splits and PR-AUC/recall-focused evaluation.",
+    "Cross-sectional snapshot: no temporal validation set; performance on future cohorts is unverified.",
+    "TotalCharges partially encodes tenure (correlation with tenure x MonthlyCharges) - collinearity must be handled in preprocessing.",
+    "Possible proxy discrimination through demographic features (age proxy, gender); monitor fairness if used for customer-facing decisions."
+  ],
+  "limitations": [
+    "No timestamps: temporal validation (train-past, test-future) is impossible; single holdout only.",
+    "No post-outcome fields exist, so classic target leakage is structurally absent, but future deployments must preserve this guarantee.",
+    "The dataset is a curated sample; real-world drift may differ."
+  ],
+  "data_leakage_checks": [
+    "Churn is the outcome itself: excluded from any feature matrix (by construction).",
+    "No post-outcome columns exist in the dataset (verified column-by-column in the data dictionary).",
+    "TotalCharges accumulates over tenure - retained as a feature only with documented collinearity treatment, since it is available for existing customers at scoring time.",
+    "customerID is excluded from features (unique identifier, zero predictive value)."
+  ],
+  "open_questions": [
+    "Should demographic attributes (gender, SeniorCitizen) be allowed as model features, or excluded for fairness policy reasons?",
+    "Is there a business-defined retention capacity (number of customers that can be contacted per month) to calibrate the probability threshold?",
+    "Should the model prioritize recall (catch more churners) or precision (cheaper campaigns) - i.e., what is the cost of a retention offer vs a lost customer?"
+  ],
+  "approval_status": "pending_user_approval"
+}

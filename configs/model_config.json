@@ -1,0 +1,24 @@
+{
+  "model_name": "telco_churn_classifier",
+  "model_version": "1.0.0",
+  "approved_target": "Churn",
+  "positive_class": "Yes",
+  "problem_type": "classification",
+  "target_approval_reference": "docs/json/target_approval.json",
+  "random_state": 42,
+  "test_fraction": 0.2,
+  "validation_fraction": 0.2,
+  "cv_folds": 5,
+  "primary_metric": "average_precision",
+  "risk_bands": {
+    "high_min_probability": 0.6,
+    "medium_min_probability": 0.35,
+    "low_below": 0.35
+  },
+  "candidates": {
+    "logistic_regression": {"max_iter": 1000, "C": 1.0},
+    "decision_tree": {"max_depth": 5, "min_samples_leaf": 20},
+    "random_forest": {"n_estimators": 300, "min_samples_leaf": 10}
+  },
+  "permutation_importance": {"n_repeats": 10, "scoring": "average_precision"}
+}

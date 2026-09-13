@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-09-13",
+  "dataset": "data/raw/Telco-Customer-Churn.csv",
+  "selection_criteria": ["business_impact", "feasibility", "actionability"],
+  "all_questions": [
+    {"id": 1, "question": "What is the overall churn rate, and how does it vary by contract type?", "selected": true},
+    {"id": 2, "question": "How does churn risk change across the customer lifecycle (tenure)?", "selected": true},
+    {"id": 3, "question": "How does churn differ by internet service type, and do value-added add-ons (security, support) protect against churn?", "selected": true},
+    {"id": 4, "question": "How much monthly recurring revenue is at risk from churn, and how is that risk distributed across price bands?", "selected": true},
+    {"id": 5, "question": "How does churn differ by payment method and paperless billing, and is there a compounding effect?", "selected": true},
+    {"id": 6, "question": "Do customers with partners/dependents churn differently, and which demographic segments concentrate churn?", "selected": false},
+    {"id": 7, "question": "Which customer profile generates the highest revenue, and how is ARPU distributed across segments?", "selected": false},
+    {"id": 8, "question": "How does churn interact between contract type and tenure (e.g., are young month-to-month customers the red zone)?", "selected": false},
+    {"id": 9, "question": "How do entertainment services (StreamingTV/StreamingMovies) relate to churn independently of internet type?", "selected": false},
+    {"id": 10, "question": "What share of customers have no add-on services at all, and how does that share move revenue exposure?", "selected": false}
+  ],
+  "selected_questions": [
+    {
+      "id": 1,
+      "question": "What is the overall churn rate, and how does it vary by contract type?",
+      "script": "scripts/q01_churn_rate_by_contract.py",
+      "outputs": {"snippet": "docs/snippets/q01_output.md", "metrics": "docs/json/q01_metrics.json", "chart": "docs/images/q01_chart.png"},
+      "justification": {
+        "business_impact": "highest - contract is the largest structural divide; month-to-month carries ~87% of churned MRR",
+        "feasibility": "high - simple segmentation, complete data",
+        "actionability": "high - contract migration programs are a standard, executable lever"
+      }
+    },
+    {
+      "id": 2,
+      "question": "How does churn risk change across the customer lifecycle (tenure)?",
+      "script": "scripts/q02_tenure_vs_churn.py",
+      "outputs": {"snippet": "docs/snippets/q02_output.md", "metrics": "docs/json/q02_metrics.json", "chart": "docs/images/q02_chart.png"},
+      "justification": {
+        "business_impact": "high - first-year customers generate 55% of all churn",
+        "feasibility": "high - tenure is complete and numeric",
+        "actionability": "high - onboarding programs and early-lifecycle interventions are standard practice"
+      }
+    },
+    {
+      "id": 3,
+      "question": "How does churn differ by internet service type, and do value-added add-ons protect against churn?",
+      "script": "scripts/q03_services_and_churn.py",
+      "outputs": {"snippet": "docs/snippets/q03_output.md", "metrics": "docs/json/q03_metrics.json", "chart": "docs/images/q03_chart.png"},
+      "justification": {
+        "business_impact": "high - fiber is the flagship product and churns at 2.2x DSL",
+        "feasibility": "high - categorical services, complete data",
+        "actionability": "medium-high - bundling is executable; service-quality fixes require product team"
+      }
+    },
+    {
+      "id": 4,
+      "question": "How much monthly recurring revenue is at risk from churn, and how is that risk distributed across price bands?",
+      "script": "scripts/q04_revenue_at_risk.py",
+      "outputs": {"snippet": "docs/snippets/q04_output.md", "metrics": "docs/json/q04_metrics.json", "chart": "docs/images/q04_chart.png"},
+      "justification": {
+        "business_impact": "highest - converts churn into dollars ($139K/mo, $1.67M annualized)",
+        "feasibility": "high - arithmetic over existing columns",
+        "actionability": "high - directly shapes retention budget allocation"
+      }
+    },
+    {
+      "id": 5,
+      "question": "How does churn differ by payment method and paperless billing, and is there a compounding effect?",
+      "script": "scripts/q05_payment_and_billing.py",
+      "outputs": {"snippet": "docs/snippets/q05_output.md", "metrics": "docs/json/q05_metrics.json", "chart": "docs/images/q05_chart.png"},
+      "justification": {
+        "business_impact": "medium-high - identifies a leaky, addressable behavioral segment (e-check x paperless: 49.8% churn)",
+        "feasibility": "high - two categorical variables",
+        "actionability": "high - payment-migration campaigns are cheap and testable"
+      }
+    }
+  ],
+  "rejected_questions_justification": [
+    {"id": 6, "reason": "Demographics add context but lower incremental impact: gender is balanced and segments overlap heavily with contract/tenure findings."},
+    {"id": 7, "reason": "ARPU structure is partially covered by Q04 (price bands); standalone profile analysis duplicates its conclusions."},
+    {"id": 8, "reason": "High analytic value but its action (early-contract month-to-month care) is already covered by Q1+Q2 combined."},
+    {"id": 9, "reason": "Entertainment services show weak differentials vs the protection add-ons; lower signal-to-noise."},
+    {"id": 10, "reason": "Covered implicitly by Q03's protection tiers."}
+  ],
+  "compliance_note": "This phase did not select, rank, or propose any target variable and did not train any model."
+}

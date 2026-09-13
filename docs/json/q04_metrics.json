@@ -1,0 +1,42 @@
+{
+  "question": "How much monthly recurring revenue is at risk from churn?",
+  "total_monthly_revenue": 456116.6,
+  "churned_monthly_revenue": 139130.85,
+  "share_of_mrr_at_risk": 0.305,
+  "annualized_revenue_at_risk": 1669570.2,
+  "overall_arpu": 64.76,
+  "arpu_churned": 74.44,
+  "arpu_retained": 61.27,
+  "arpu_premium_churned_vs_retained_pct": 0.2151,
+  "by_price_band": {
+    "Low ($0-35)": {
+      "customers": 1735,
+      "churn_rate": 0.1089,
+      "monthly_revenue": 38217.15,
+      "churned_monthly_revenue": 4458.05,
+      "share_of_revenue_at_risk": 0.032
+    },
+    "Mid ($35-70)": {
+      "customers": 1725,
+      "churn_rate": 0.2394,
+      "monthly_revenue": 94597.15,
+      "churned_monthly_revenue": 22181.8,
+      "share_of_revenue_at_risk": 0.1594
+    },
+    "High ($70-95)": {
+      "customers": 2288,
+      "churn_rate": 0.3711,
+      "monthly_revenue": 188750.95,
+      "churned_monthly_revenue": 69824.9,
+      "share_of_revenue_at_risk": 0.5019
+    },
+    "Premium ($95+)": {
+      "customers": 1295,
+      "churn_rate": 0.3228,
+      "monthly_revenue": 134551.35,
+      "churned_monthly_revenue": 42666.1,
+      "share_of_revenue_at_risk": 0.3067
+    }
+  },
+  "total_customers": 7043
+}

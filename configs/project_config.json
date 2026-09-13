@@ -1,0 +1,7 @@
+{
+  "project_name": "telco_marketing_campaign",
+  "dataset": "data/raw/Telco-Customer-Churn.csv",
+  "data_dictionary": "docs/data_dictionary.md",
+  "language": "en",
+  "created": "2026-09-13"
+}

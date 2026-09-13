@@ -1,0 +1,7 @@
+{
+  "approved_target": "Churn",
+  "approved_problem_type": "classification",
+  "approval_status": "approved",
+  "user_comments": "Approved by the user via explicit confirmation (positive class: Yes; demographic features allowed as-is).",
+  "approval_timestamp": "2026-09-13T17:25:00+00:00"
+}

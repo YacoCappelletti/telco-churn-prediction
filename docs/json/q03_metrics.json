@@ -1,0 +1,96 @@
+{
+  "question": "How does churn differ by internet service type, and do add-ons protect?",
+  "overall_churn_rate": 0.2654,
+  "churn_rate_by_internet_service": {
+    "Fiber optic": {
+      "customers": 3096,
+      "churn_rate": 0.4189
+    },
+    "DSL": {
+      "customers": 2421,
+      "churn_rate": 0.1896
+    },
+    "No": {
+      "customers": 1526,
+      "churn_rate": 0.074
+    }
+  },
+  "churn_rate_by_service_yes_no": {
+    "OnlineSecurity": {
+      "Yes": {
+        "customers": 2019,
+        "churn_rate": 0.1461
+      },
+      "No": {
+        "customers": 3498,
+        "churn_rate": 0.4177
+      }
+    },
+    "OnlineBackup": {
+      "Yes": {
+        "customers": 2429,
+        "churn_rate": 0.2153
+      },
+      "No": {
+        "customers": 3088,
+        "churn_rate": 0.3993
+      }
+    },
+    "DeviceProtection": {
+      "Yes": {
+        "customers": 2422,
+        "churn_rate": 0.225
+      },
+      "No": {
+        "customers": 3095,
+        "churn_rate": 0.3913
+      }
+    },
+    "TechSupport": {
+      "Yes": {
+        "customers": 2044,
+        "churn_rate": 0.1517
+      },
+      "No": {
+        "customers": 3473,
+        "churn_rate": 0.4164
+      }
+    },
+    "StreamingTV": {
+      "Yes": {
+        "customers": 2707,
+        "churn_rate": 0.3007
+      },
+      "No": {
+        "customers": 2810,
+        "churn_rate": 0.3352
+      }
+    },
+    "StreamingMovies": {
+      "Yes": {
+        "customers": 2732,
+        "churn_rate": 0.2994
+      },
+      "No": {
+        "customers": 2785,
+        "churn_rate": 0.3368
+      }
+    }
+  },
+  "churn_rate_by_protection_tier": {
+    "No protection": {
+      "customers": 4079,
+      "churn_rate": 0.3342
+    },
+    "Security or Support": {
+      "customers": 1865,
+      "churn_rate": 0.2182
+    },
+    "Both Security & Support": {
+      "customers": 1099,
+      "churn_rate": 0.0901
+    }
+  },
+  "fiber_monthly_revenue": 283284.4,
+  "fiber_churned_monthly_revenue": 114300.05
+}

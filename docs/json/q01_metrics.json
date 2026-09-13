@@ -1,0 +1,32 @@
+{
+  "question": "What is the overall churn rate, and how does it vary by contract type?",
+  "overall_churn_rate": 0.2654,
+  "overall_churned_customers": 1869,
+  "total_customers": 7043,
+  "total_monthly_revenue": 456116.6,
+  "total_monthly_revenue_at_risk": 139130.85,
+  "by_contract": {
+    "Month-to-month": {
+      "customers": 3875,
+      "share_of_base": 0.5502,
+      "churn_rate": 0.4271,
+      "monthly_revenue_at_risk": 120847.1,
+      "share_of_total_mrr_at_risk": 0.2649
+    },
+    "One year": {
+      "customers": 1473,
+      "share_of_base": 0.2091,
+      "churn_rate": 0.1127,
+      "monthly_revenue_at_risk": 14118.45,
+      "share_of_total_mrr_at_risk": 0.031
+    },
+    "Two year": {
+      "customers": 1695,
+      "share_of_base": 0.2407,
+      "churn_rate": 0.0283,
+      "monthly_revenue_at_risk": 4165.3,
+      "share_of_total_mrr_at_risk": 0.0091
+    }
+  },
+  "rate_multiple_month_to_month_vs_two_year": 15.1
+}

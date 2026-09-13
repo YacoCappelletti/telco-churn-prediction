@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-09-13",
+  "dataset": "data/raw/Telco-Customer-Churn.csv",
+  "phase": "2 - Business Analysis",
+  "compliance_note": "No target variable was selected or proposed in this phase; no model was trained.",
+  "insights": [
+    {
+      "id": "q01",
+      "question": "What is the overall churn rate, and how does it vary by contract type?",
+      "business_relevance": "Contract structure is the company's main retention lever: it defines exit cost and repeat decision points for every customer.",
+      "code": "scripts/q01_churn_rate_by_contract.py",
+      "output": {
+        "snippet": "docs/snippets/q01_output.md",
+        "metrics": "docs/json/q01_metrics.json",
+        "chart": "docs/images/q01_chart.png"
+      },
+      "key_metrics": {
+        "overall_churn_rate": 0.2654,
+        "churn_rate_month_to_month": 0.4271,
+        "churn_rate_one_year": 0.1127,
+        "churn_rate_two_year": 0.0283,
+        "month_to_month_share_of_churned_mrr": 0.8642
+      },
+      "interpretation": "Overall churn is 26.5% (1,869/7,043). Contract commitment dominates: month-to-month customers churn at 42.7% - 15.1x the 2.8% rate of two-year customers - and although they are 55% of the base they carry ~87% of churned monthly revenue ($120.8K of $139.1K). The least-committed segment is also the most expensive per month.",
+      "recommended_action": "Launch a contract-migration program: incentivize month-to-month customers (3,875 accounts) to move to 1-2 year terms via lock-in discounts and bundles; track churn-by-contract monthly."
+    },
+    {
+      "id": "q02",
+      "question": "How does churn risk change across the customer lifecycle (tenure)?",
+      "business_relevance": "If risk concentrates in the first year, onboarding is the highest-leverage operational process for retention.",
+      "code": "scripts/q02_tenure_vs_churn.py",
+      "output": {
+        "snippet": "docs/snippets/q02_output.md",
+        "metrics": "docs/json/q02_metrics.json",
+        "chart": "docs/images/q02_chart.png"
+      },
+      "key_metrics": {
+        "churn_rate_0_6m": 0.5215,
+        "churn_rate_61_72m": 0.0639,
+        "median_tenure_churned": 10,
+        "median_tenure_retained": 38,
+        "first_12_months_share_of_all_churn": 0.5548,
+        "customers_at_tenure_1": 613
+      },
+      "interpretation": "Risk decays monotonically with tenure: 52.2% in the first 6 months vs 6.4% after five years (~8x gradient). Half of all churned customers left with <= 10 months of tenure; 613 customers sit at exactly 1 month - the onboarding cliff.",
+      "recommended_action": "Stand up a 90-day onboarding program (proactive setup call, first-invoice check, expectation management) with cohort survival at months 3 and 6 as its KPI."
+    },
+    {
+      "id": "q03",
+      "question": "How does churn differ by internet service type, and do value-added add-ons protect against churn?",
+      "business_relevance": "The flagship premium product is leaking at double the rate of the legacy one - a product-level warning with direct revenue consequences.",
+      "code": "scripts/q03_services_and_churn.py",
+      "output": {
+        "snippet": "docs/snippets/q03_output.md",
+        "metrics": "docs/json/q03_metrics.json",
+        "chart": "docs/images/q03_chart.png"
+      },
+      "key_metrics": {
+        "churn_rate_fiber": 0.4189,
+        "churn_rate_dsl": 0.1896,
+        "churn_rate_no_protection": 0.3342,
+        "churn_rate_both_security_support": 0.0901,
+        "fiber_churned_monthly_revenue": 114300.05
+      },
+      "interpretation": "Fiber churns at 41.9% vs 19.0% for DSL despite being the premium product ($91.68 vs $56.15 median charge). Add-ons correlate inversely with churn: without OnlineSecurity/TechSupport churn is ~33-42%; with both, 9.0%. Plausible mechanisms: bundling stickiness and/or selection (unhappy fiber customers buy fewer add-ons). Either way, unprotected fiber customers are the red zone.",
+      "recommended_action": "1) Investigate fiber service quality (installation, outages, expectation gap). 2) Bundle OnlineSecurity + TechSupport into fiber onboarding at promotional price. 3) Track the protected-vs-unprotected churn gap as a leading indicator."
+    },
+    {
+      "id": "q04",
+      "question": "How much monthly recurring revenue is at risk from churn, and how is that risk distributed across price bands?",
+      "business_relevance": "Churn must be managed in dollars: revenue at risk, not customer counts, is what leadership can act on.",
+      "code": "scripts/q04_revenue_at_risk.py",
+      "output": {
+        "snippet": "docs/snippets/q04_output.md",
+        "metrics": "docs/json/q04_metrics.json",
+        "chart": "docs/images/q04_chart.png"
+      },
+      "key_metrics": {
+        "total_mrr": 456116.6,
+        "churned_mrr": 139130.85,
+        "share_of_mrr_at_risk": 0.305,
+        "annualized_revenue_at_risk": 1669570.2,
+        "arpu_churned": 74.44,
+        "arpu_retained": 61.27,
+        "high_band_share_of_revenue_at_risk": 0.5019
+      },
+      "interpretation": "Churners are worth more than stayers: ARPU $74.44 vs $61.27 (+21.5%). As a result 30.5% of all MRR ($139.1K/mo, $1.67M annualized) sits in churned accounts - far above their 26.5% customer share. The $70-95 band alone concentrates 50.2% of at-risk revenue with a 37.1% churn rate.",
+      "recommended_action": "1) Make retention budget revenue-weighted: prioritize $70+ accounts. 2) Audit the $95+ premium bundle's price-value gap. 3) Report 'monthly revenue at risk' as the primary KPI next to churn count."
+    },
+    {
+      "id": "q05",
+      "question": "How does churn differ by payment method and paperless billing, and is there a compounding effect?",
+      "business_relevance": "Payment behavior is a cheap, testable lever: it can be changed with a small incentive without touching the product.",
+      "code": "scripts/q05_payment_and_billing.py",
+      "output": {
+        "snippet": "docs/snippets/q05_output.md",
+        "metrics": "docs/json/q05_metrics.json",
+        "chart": "docs/images/q05_chart.png"
+      },
+      "key_metrics": {
+        "churn_rate_electronic_check": 0.4529,
+        "churn_rate_automatic_methods": [0.1671, 0.1524],
+        "churn_rate_paperless_yes": 0.3357,
+        "churn_rate_paperless_no": 0.1633,
+        "echeck_paperless_yes_churn": 0.4977,
+        "echeck_churned_monthly_revenue": 84288.75
+      },
+      "interpretation": "Manual payment correlates with churn: electronic check churns at 45.3% vs 15-17% for automatic methods (~3x). Paperless billing shows the same direction (33.6% vs 16.3%), and they compound: e-check + paperless is the leakiest configuration at 49.8%. Mechanism hypothesis: manual payment creates a monthly re-authorization decision point; automatic payment removes it. Correlation, not proven causation - payment type also proxies for customer profile.",
+      "recommended_action": "Run an A/B-tested payment-migration campaign (incentivize e-check customers to switch to automatic payments), prioritizing e-check + paperless accounts. E-check churned MRR is $84.3K/mo."
+    }
+  ],
+  "synthesis": {
+    "what_happened": "26.5% of the base churns, taking 30.5% of monthly revenue ($139K/mo; $1.67M annualized) with it. Churn concentrates in month-to-month contracts, the first year of tenure, fiber-optic users without protection add-ons, and manual-payment customers.",
+    "why_it_happened": "The data shows structural exit-cost asymmetry (contract), lifecycle fragility (tenure spike at month 1), a price/expectation gap in the premium product (fiber), and monthly re-authorization friction (manual payment). These four mechanisms compound in overlapping segments.",
+    "what_to_do": "Four levers, in priority order: (1) contract migration for month-to-month accounts; (2) 90-day onboarding program for new customers; (3) fiber quality investigation + protection bundling; (4) A/B-tested migration from electronic check to automatic payments. Weight retention spend by monthly revenue at risk, not by customer count."
+  }
+}

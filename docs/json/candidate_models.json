@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-09-13T17:27:37.032415+00:00",
+  "target": "Churn",
+  "target_approval_reference": "docs/json/target_approval.json",
+  "primary_metric": "average_precision",
+  "candidates": {
+    "logistic_regression": {
+      "cv_train": {
+        "accuracy": {
+          "mean": 0.8026,
+          "std": 0.0108
+        },
+        "precision": {
+          "mean": 0.6508,
+          "std": 0.0298
+        },
+        "recall": {
+          "mean": 0.5558,
+          "std": 0.0241
+        },
+        "f1": {
+          "mean": 0.599,
+          "std": 0.0197
+        },
+        "roc_auc": {
+          "mean": 0.8481,
+          "std": 0.0107
+        },
+        "average_precision": {
+          "mean": 0.6665,
+          "std": 0.0249
+        }
+      },
+      "validation": {
+        "accuracy": 0.8027,
+        "precision": 0.6579,
+        "recall": 0.5348,
+        "f1": 0.59,
+        "roc_auc": 0.836,
+        "average_precision": 0.6424
+      }
+    },
+    "decision_tree": {
+      "cv_train": {
+        "accuracy": {
+          "mean": 0.7832,
+          "std": 0.008
+        },
+        "precision": {
+          "mean": 0.6304,
+          "std": 0.049
+        },
+        "recall": {
+          "mean": 0.472,
+          "std": 0.0786
+        },
+        "f1": {
+          "mean": 0.5324,
+          "std": 0.0399
+        },
+        "roc_auc": {
+          "mean": 0.8193,
+          "std": 0.0111
+        },
+        "average_precision": {
+          "mean": 0.5997,
+          "std": 0.0149
+        }
+      },
+      "validation": {
+        "accuracy": 0.785,
+        "precision": 0.6426,
+        "recall": 0.4278,
+        "f1": 0.5136,
+        "roc_auc": 0.8236,
+        "average_precision": 0.5957
+      }
+    },
+    "random_forest": {
+      "cv_train": {
+        "accuracy": {
+          "mean": 0.8047,
+          "std": 0.0117
+        },
+        "precision": {
+          "mean": 0.6848,
+          "std": 0.0418
+        },
+        "recall": {
+          "mean": 0.4942,
+          "std": 0.0227
+        },
+        "f1": {
+          "mean": 0.5733,
+          "std": 0.0206
+        },
+        "roc_auc": {
+          "mean": 0.8487,
+          "std": 0.0109
+        },
+        "average_precision": {
+          "mean": 0.6732,
+          "std": 0.0113
+        }
+      },
+      "validation": {
+        "accuracy": 0.7935,
+        "precision": 0.6602,
+        "recall": 0.4572,
+        "f1": 0.5403,
+        "roc_auc": 0.8377,
+        "average_precision": 0.6405
+      }
+    }
+  },
+  "selected_candidate": "logistic_regression",
+  "selection_rule": "highest validation average_precision (PR-AUC), business-aligned per docs/data_quality_report.md imbalance note",
+  "baseline_reference": "docs/json/baseline_metrics.json"
+}

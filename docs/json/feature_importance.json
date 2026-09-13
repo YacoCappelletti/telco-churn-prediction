@@ -1,0 +1,103 @@
+{
+  "method": "permutation_importance",
+  "scoring": "average_precision",
+  "n_repeats": 10,
+  "computed_on": "test set (single pass)",
+  "importances": [
+    {
+      "feature": "tenure",
+      "mean": 0.2404,
+      "std": 0.0078
+    },
+    {
+      "feature": "InternetService",
+      "mean": 0.0743,
+      "std": 0.0152
+    },
+    {
+      "feature": "MonthlyCharges",
+      "mean": 0.0631,
+      "std": 0.0141
+    },
+    {
+      "feature": "Contract",
+      "mean": 0.0438,
+      "std": 0.0056
+    },
+    {
+      "feature": "TotalCharges",
+      "mean": 0.0282,
+      "std": 0.0097
+    },
+    {
+      "feature": "StreamingMovies",
+      "mean": 0.013,
+      "std": 0.0098
+    },
+    {
+      "feature": "TechSupport",
+      "mean": 0.0118,
+      "std": 0.0039
+    },
+    {
+      "feature": "OnlineSecurity",
+      "mean": 0.0097,
+      "std": 0.0035
+    },
+    {
+      "feature": "PaperlessBilling",
+      "mean": 0.0079,
+      "std": 0.0072
+    },
+    {
+      "feature": "PaymentMethod",
+      "mean": 0.0056,
+      "std": 0.0071
+    },
+    {
+      "feature": "DeviceProtection",
+      "mean": 0.0039,
+      "std": 0.0021
+    },
+    {
+      "feature": "OnlineBackup",
+      "mean": 0.0036,
+      "std": 0.0031
+    },
+    {
+      "feature": "StreamingTV",
+      "mean": 0.0019,
+      "std": 0.0063
+    },
+    {
+      "feature": "Dependents",
+      "mean": 0.0015,
+      "std": 0.0038
+    },
+    {
+      "feature": "MultipleLines",
+      "mean": 0.0012,
+      "std": 0.009
+    },
+    {
+      "feature": "SeniorCitizen",
+      "mean": 0.0011,
+      "std": 0.0024
+    },
+    {
+      "feature": "PhoneService",
+      "mean": 0.0005,
+      "std": 0.0005
+    },
+    {
+      "feature": "gender",
+      "mean": 0.0002,
+      "std": 0.0008
+    },
+    {
+      "feature": "Partner",
+      "mean": 0.0002,
+      "std": 0.0006
+    }
+  ]
+}

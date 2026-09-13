@@ -29,133 +29,133 @@ Use this checklist to execute the project in order. Do not move to the next phas
 
 ### Project Setup
 
-- [ ]  Verify that the raw dataset is available in `/data/raw/`.
-- [ ]  Create the full project directory structure.
-- [ ]  Create `requirements.txt`.
-- [ ]  Create `Makefile` or equivalent run commands.
-- [ ]  Create `.env.example`.
-- [ ]  Create `.gitignore`.
-- [ ]  Verify that the project can be executed from a clean environment.
+- [x]  Verify that the raw dataset is available in `/data/raw/`.
+- [x]  Create the full project directory structure.
+- [x]  Create `requirements.txt`.
+- [x]  Create `Makefile` or equivalent run commands.
+- [x]  Create `.env.example`.
+- [x]  Create `.gitignore`.
+- [x]  Verify that the project can be executed from a clean environment.
 
 ### Phase 1: Data Audit and Problem Discovery
 
-- [ ]  Load and inspect the dataset.
-- [ ]  Identify basic structure, rows, columns, and data types.
-- [ ]  Create the data dictionary.
-- [ ]  Add data source reference if available.
-- [ ]  Identify missing values, duplicates, constant columns, outliers, and data type issues.
-- [ ]  Generate basic distributions and initial hypotheses.
-- [ ]  Identify relevant business problems or predictive opportunities.
-- [ ]  Write `/docs/problem_statement.md` without selecting a target variable.
-- [ ]  Save `/docs/data_dictionary.md`.
-- [ ]  Save `/docs/json/data_dictionary.json`.
-- [ ]  Save `/docs/data_quality_report.md`.
-- [ ]  Confirm that no target variable has been selected in this phase.
+- [x]  Load and inspect the dataset.
+- [x]  Identify basic structure, rows, columns, and data types.
+- [x]  Create the data dictionary.
+- [x]  Add data source reference if available.
+- [x]  Identify missing values, duplicates, constant columns, outliers, and data type issues.
+- [x]  Generate basic distributions and initial hypotheses.
+- [x]  Identify relevant business problems or predictive opportunities.
+- [x]  Write `/docs/problem_statement.md` without selecting a target variable.
+- [x]  Save `/docs/data_dictionary.md`.
+- [x]  Save `/docs/json/data_dictionary.json`.
+- [x]  Save `/docs/data_quality_report.md`.
+- [x]  Confirm that no target variable has been selected in this phase.
 
 ### Phase 2: Business Analysis
 
-- [ ]  Generate 10 business questions that can be answered with the dataset.
-- [ ]  Select the 5 most important questions.
-- [ ]  Justify the selection based on business impact, feasibility, and actionability.
-- [ ]  Create one Python script per selected question.
-- [ ]  Generate one Markdown snippet per question.
-- [ ]  Generate one JSON metrics file per question.
-- [ ]  Generate one chart per question when applicable.
-- [ ]  Write `/docs/business_questions.md`.
-- [ ]  Save `/docs/json/business_questions.json`.
-- [ ]  Write `/docs/business_analysis_report.md`.
-- [ ]  Save `/docs/json/insights.json`.
-- [ ]  Confirm that no target variable has been selected or proposed in this phase.
+- [x]  Generate 10 business questions that can be answered with the dataset.
+- [x]  Select the 5 most important questions.
+- [x]  Justify the selection based on business impact, feasibility, and actionability.
+- [x]  Create one Python script per selected question.
+- [x]  Generate one Markdown snippet per question.
+- [x]  Generate one JSON metrics file per question.
+- [x]  Generate one chart per question when applicable.
+- [x]  Write `/docs/business_questions.md`.
+- [x]  Save `/docs/json/business_questions.json`.
+- [x]  Write `/docs/business_analysis_report.md`.
+- [x]  Save `/docs/json/insights.json`.
+- [x]  Confirm that no target variable has been selected or proposed in this phase.
 
 ### Phase 3: Target Variable Proposal
 
-- [ ]  Read `/docs/problem_statement.md`.
-- [ ]  Read `/docs/business_analysis_report.md`.
-- [ ]  Read `/docs/data_dictionary.md`.
-- [ ]  Read `/docs/json/data_dictionary.json`.
-- [ ]  Read `/docs/data_quality_report.md`.
-- [ ]  Read `/docs/json/insights.json`.
-- [ ]  Identify candidate target variables.
-- [ ]  Evaluate candidate variables using business relevance, data quality, leakage risk, availability, and feasibility.
-- [ ]  Select one recommended target variable.
-- [ ]  Identify alternative target variables if applicable.
-- [ ]  Determine the preliminary problem type: classification or regression.
-- [ ]  Write the business, technical, and data quality justification.
-- [ ]  Save `/docs/target_proposal.md`.
-- [ ]  Save `/docs/json/target_proposal.json`.
-- [ ]  Save `/docs/json/target_approval.json` with approval status set to `pending`.
-- [ ]  Ask the user to approve, reject, or request changes.
-- [ ]  Stop execution until the target approval status is `approved`.
+- [x]  Read `/docs/problem_statement.md`.
+- [x]  Read `/docs/business_analysis_report.md`.
+- [x]  Read `/docs/data_dictionary.md`.
+- [x]  Read `/docs/json/data_dictionary.json`.
+- [x]  Read `/docs/data_quality_report.md`.
+- [x]  Read `/docs/json/insights.json`.
+- [x]  Identify candidate target variables.
+- [x]  Evaluate candidate variables using business relevance, data quality, leakage risk, availability, and feasibility.
+- [x]  Select one recommended target variable.
+- [x]  Identify alternative target variables if applicable.
+- [x]  Determine the preliminary problem type: classification or regression.
+- [x]  Write the business, technical, and data quality justification.
+- [x]  Save `/docs/target_proposal.md`.
+- [x]  Save `/docs/json/target_proposal.json`.
+- [x]  Save `/docs/json/target_approval.json` with approval status set to `pending`.
+- [x]  Ask the user to approve, reject, or request changes.
+- [x]  Stop execution until the target approval status is `approved`.
 
 ### Phase 4: Machine Learning Model
 
-- [ ]  Confirm that Phase 3 approval status is `approved`.
-- [ ]  Load the approved target variable.
-- [ ]  Confirm whether the problem is classification or regression.
-- [ ]  Create a baseline model.
-- [ ]  Split data into training, validation, and test sets.
-- [ ]  Build preprocessing pipelines.
-- [ ]  Train candidate models appropriate for the problem type.
-- [ ]  Evaluate models using cross-validation.
-- [ ]  Select the best model using a validation metric aligned with the business objective.
-- [ ]  Evaluate the final model only once on the test set.
-- [ ]  Analyze feature importance.
-- [ ]  Save model artifacts.
-- [ ]  Save model metadata.
-- [ ]  Write `/docs/model_report.md`.
-- [ ]  Save `/docs/json/model_performance.json`.
-- [ ]  Save `/docs/model_card.md`.
-- [ ]  Save `/docs/json/feature_importance.json`.
-- [ ]  Save `/docs/images/model_performance_charts.png`.
+- [x]  Confirm that Phase 3 approval status is `approved`.
+- [x]  Load the approved target variable.
+- [x]  Confirm whether the problem is classification or regression.
+- [x]  Create a baseline model.
+- [x]  Split data into training, validation, and test sets.
+- [x]  Build preprocessing pipelines.
+- [x]  Train candidate models appropriate for the problem type.
+- [x]  Evaluate models using cross-validation.
+- [x]  Select the best model using a validation metric aligned with the business objective.
+- [x]  Evaluate the final model only once on the test set.
+- [x]  Analyze feature importance.
+- [x]  Save model artifacts.
+- [x]  Save model metadata.
+- [x]  Write `/docs/model_report.md`.
+- [x]  Save `/docs/json/model_performance.json`.
+- [x]  Save `/docs/model_card.md`.
+- [x]  Save `/docs/json/feature_importance.json`.
+- [x]  Save `/docs/images/model_performance_charts.png`.
 
 ### Phase 5: Prediction API
 
-- [ ]  Create FastAPI application.
-- [ ]  Implement `/health` endpoint.
-- [ ]  Implement `/v1/predict` endpoint.
-- [ ]  Implement `/v1/model-card` endpoint.
-- [ ]  Add Pydantic input validation.
-- [ ]  Add error handling.
-- [ ]  Add logging.
-- [ ]  Add model versioning.
-- [ ]  Include prediction explanation and business recommendation in the response.
-- [ ]  Write API documentation.
-- [ ]  Save API examples as JSON.
-- [ ]  Write API tests.
+- [x]  Create FastAPI application.
+- [x]  Implement `/health` endpoint.
+- [x]  Implement `/v1/predict` endpoint.
+- [x]  Implement `/v1/model-card` endpoint.
+- [x]  Add Pydantic input validation.
+- [x]  Add error handling.
+- [x]  Add logging.
+- [x]  Add model versioning.
+- [x]  Include prediction explanation and business recommendation in the response.
+- [x]  Write API documentation.
+- [x]  Save API examples as JSON.
+- [x]  Write API tests.
 
 ### Phase 6: Predictive App with Streamlit
 
-- [ ]  Create Streamlit predictive app.
-- [ ]  Add input form for prediction.
-- [ ]  Connect the app to the prediction API.
-- [ ]  Display predicted probability or predicted value.
-- [ ]  Display main contributing factors.
-- [ ]  Display business recommendation.
-- [ ]  Display warnings for invalid inputs.
-- [ ]  Write app documentation.
+- [x]  Create Streamlit predictive app.
+- [x]  Add input form for prediction.
+- [x]  Connect the app to the prediction API.
+- [x]  Display predicted probability or predicted value.
+- [x]  Display main contributing factors.
+- [x]  Display business recommendation.
+- [x]  Display warnings for invalid inputs.
+- [x]  Write app documentation.
 
 ### Phase 7: Business Dashboard with Streamlit
 
-- [ ]  Create Streamlit dashboard.
-- [ ]  Add KPIs.
-- [ ]  Add charts related to the 5 selected business questions.
-- [ ]  Add filters by relevant dimensions.
-- [ ]  Include clear titles and business interpretation.
-- [ ]  Include recommended actions.
-- [ ]  Ensure the dashboard answers:
+- [x]  Create Streamlit dashboard.
+- [x]  Add KPIs.
+- [x]  Add charts related to the 5 selected business questions.
+- [x]  Add filters by relevant dimensions.
+- [x]  Include clear titles and business interpretation.
+- [x]  Include recommended actions.
+- [x]  Ensure the dashboard answers:
     - What happened?
     - Why did it happen?
     - What should the business do?
-- [ ]  Write dashboard documentation.
+- [x]  Write dashboard documentation.
 
 ### Deployment
 
-- [ ]  Create `Dockerfile`.
-- [ ]  Create `docker-compose.yml`.
-- [ ]  Include services for API, predictive app, and dashboard.
-- [ ]  Create `.env.example` if not already created.
-- [ ]  Write deployment documentation.
-- [ ]  Verify that the project runs using Docker from a clean environment.
+- [x]  Create `Dockerfile`.
+- [x]  Create `docker-compose.yml`.
+- [x]  Include services for API, predictive app, and dashboard.
+- [x]  Create `.env.example` if not already created.
+- [x]  Write deployment documentation.
+- [x]  Verify that the project runs using Docker from a clean environment.
 
 ---
 

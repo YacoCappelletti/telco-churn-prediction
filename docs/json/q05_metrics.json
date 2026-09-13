@@ -1,0 +1,41 @@
+{
+  "question": "How does churn differ by payment method and billing mode?",
+  "overall_churn_rate": 0.2654,
+  "churn_rate_by_payment_method": {
+    "Electronic check": {
+      "customers": 2365,
+      "churn_rate": 0.4529
+    },
+    "Mailed check": {
+      "customers": 1612,
+      "churn_rate": 0.1911
+    },
+    "Bank transfer (automatic)": {
+      "customers": 1544,
+      "churn_rate": 0.1671
+    },
+    "Credit card (automatic)": {
+      "customers": 1522,
+      "churn_rate": 0.1524
+    }
+  },
+  "churn_rate_by_paperless_billing": {
+    "No": {
+      "customers": 2872,
+      "churn_rate": 0.1633
+    },
+    "Yes": {
+      "customers": 4171,
+      "churn_rate": 0.3357
+    }
+  },
+  "electronic_check_x_paperless": {
+    "echeck_paperless_yes": 0.4977,
+    "echeck_paperless_no": 0.3274,
+    "other_methods_paperless_yes": 0.2194,
+    "other_methods_paperless_no": 0.1178
+  },
+  "echeck_customers": 2365,
+  "echeck_monthly_revenue": 180345.0,
+  "echeck_churned_monthly_revenue": 84288.75
+}

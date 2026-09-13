@@ -1,0 +1,166 @@
+{
+  "generated_at": "2026-09-13",
+  "base_url": "http://localhost:8000",
+  "examples": [
+    {
+      "name": "high_risk_fiber_new_customer",
+      "endpoint": "/v1/predict",
+      "method": "POST",
+      "request": {
+        "gender": "Female",
+        "SeniorCitizen": 0,
+        "Partner": "Yes",
+        "Dependents": "No",
+        "tenure": 4,
+        "PhoneService": "Yes",
+        "MultipleLines": "No",
+        "InternetService": "Fiber optic",
+        "OnlineSecurity": "No",
+        "OnlineBackup": "No",
+        "DeviceProtection": "No",
+        "TechSupport": "No",
+        "StreamingTV": "Yes",
+        "StreamingMovies": "Yes",
+        "Contract": "Month-to-month",
+        "PaperlessBilling": "Yes",
+        "PaymentMethod": "Electronic check",
+        "MonthlyCharges": 89.5,
+        "TotalCharges": 350.5
+      },
+      "status": 200,
+      "response": {
+        "customer_risk": {
+          "churn_probability": 0.7746,
+          "prediction": "Yes",
+          "risk_level": "high"
+        },
+        "contributing_factors": [
+          {
+            "feature": "tenure",
+            "direction": "increases_risk",
+            "description": "Tenure pushes churn risk up"
+          },
+          {
+            "feature": "InternetService",
+            "direction": "increases_risk",
+            "description": "InternetService pushes churn risk up"
+          },
+          {
+            "feature": "Contract",
+            "direction": "increases_risk",
+            "description": "Contract pushes churn risk up"
+          },
+          {
+            "feature": "MonthlyCharges",
+            "direction": "decreases_risk",
+            "description": "Monthly bill pulls churn risk down"
+          },
+          {
+            "feature": "TotalCharges",
+            "direction": "decreases_risk",
+            "description": "Lifetime charges pulls churn risk down"
+          },
+          {
+            "feature": "SeniorCitizen",
+            "direction": "decreases_risk",
+            "description": "Senior status pulls churn risk down"
+          }
+        ],
+        "business_recommendation": "Contact this customer within 48 hours. Lead with a contract-migration offer (1-2 year term with discount) plus a protection bundle (OnlineSecurity / TechSupport); if paying by electronic check, also propose automatic payments.",
+        "model_version": "1.0.0",
+        "model_name": "telco_churn_classifier",
+        "timestamp": "2026-09-13T17:29:23.961671+00:00"
+      }
+    },
+    {
+      "name": "low_risk_locked_dsl_veteran",
+      "endpoint": "/v1/predict",
+      "method": "POST",
+      "request": {
+        "gender": "Female",
+        "SeniorCitizen": 0,
+        "Partner": "Yes",
+        "Dependents": "No",
+        "tenure": 65,
+        "PhoneService": "Yes",
+        "MultipleLines": "No",
+        "InternetService": "DSL",
+        "OnlineSecurity": "Yes",
+        "OnlineBackup": "No",
+        "DeviceProtection": "No",
+        "TechSupport": "Yes",
+        "StreamingTV": "No",
+        "StreamingMovies": "No",
+        "Contract": "Two year",
+        "PaperlessBilling": "No",
+        "PaymentMethod": "Credit card (automatic)",
+        "MonthlyCharges": 45.9,
+        "TotalCharges": 4200.0
+      },
+      "status": 200,
+      "response": {
+        "customer_risk": {
+          "churn_probability": 0.0068,
+          "prediction": "No",
+          "risk_level": "low"
+        },
+        "contributing_factors": [
+          {
+            "feature": "TotalCharges",
+            "direction": "increases_risk",
+            "description": "Lifetime charges pushes churn risk up"
+          },
+          {
+            "feature": "MonthlyCharges",
+            "direction": "increases_risk",
+            "description": "Monthly bill pushes churn risk up"
+          },
+          {
+            "feature": "OnlineBackup",
+            "direction": "increases_risk",
+            "description": "OnlineBackup pushes churn risk up"
+          },
+          {
+            "feature": "tenure",
+            "direction": "decreases_risk",
+            "description": "Tenure pulls churn risk down"
+          },
+          {
+            "feature": "SeniorCitizen",
+            "direction": "decreases_risk",
+            "description": "Senior status pulls churn risk down"
+          }
+        ],
+        "business_recommendation": "No immediate retention action required. Keep standard lifecycle messaging and re-score after the next billing cycle.",
+        "model_version": "1.0.0",
+        "model_name": "telco_churn_classifier",
+        "timestamp": "2026-09-13T17:29:23.980035+00:00"
+      }
+    },
+    {
+      "name": "health_check",
+      "endpoint": "/health",
+      "method": "GET",
+      "status": 200,
+      "response": {
+        "status": "ok",
+        "model_loaded": true,
+        "model_name": "telco_churn_classifier",
+        "model_version": "1.0.0",
+        "timestamp": "2026-09-13T17:29:23.981839+00:00"
+      }
+    },
+    {
+      "name": "model_card",
+      "endpoint": "/v1/model-card",
+      "method": "GET",
+      "status": 200,
+      "response_summary": {
+        "model_name": "telco_churn_classifier",
+        "model_version": "1.0.0",
+        "approved_target": "Churn",
+        "problem_type": "classification"
+      }
+    }
+  ]
+}
