@@ -121,10 +121,10 @@ def predict_one(model, payload: dict) -> dict:
         else:
             for feature in CATEGORICAL_FEATURES:
                 if name.startswith(feature):
-                    if float(value) > 0:  # only the active one-hot category
-                        per_feature[feature] = per_feature.get(feature, 0.0) + float(
-                            value
-                        )
+                    # Inactive one-hot columns contribute 0 by construction, so
+                    # accumulate unconditionally: this keeps protective
+                    # categories (negative logit contribution) in the ranking.
+                    per_feature[feature] = per_feature.get(feature, 0.0) + float(value)
                     break
 
     labels = _contribution_labels(encoded_names)

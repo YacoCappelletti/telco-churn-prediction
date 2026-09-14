@@ -75,6 +75,46 @@ def test_predict_high_risk_profile():
         assert body["business_recommendation"]
 
 
+def test_predict_protective_categories_in_decreases_risk():
+    """Categorical features with negative logit contribution must appear as
+    decreases_risk factors (regression: one-hot contributions were previously
+    discarded when negative, hiding protective drivers like a two-year
+    contract)."""
+    with TestClient(app) as client:
+        payload = dict(VALID_PAYLOAD)
+        payload.update(
+            {
+                "tenure": 65,
+                "TotalCharges": 6000.0,
+                "Contract": "Two year",
+                "InternetService": "DSL",
+                "OnlineSecurity": "Yes",
+                "TechSupport": "Yes",
+                "PaymentMethod": "Credit card (automatic)",
+            }
+        )
+        response = client.post("/v1/predict", json=payload)
+        assert response.status_code == 200
+        body = response.json()
+        decreasing = {
+            f["feature"]
+            for f in body["contributing_factors"]
+            if f["direction"] == "decreases_risk"
+        }
+        assert decreasing, "expected at least one protective factor"
+        known_protective = {
+            "Contract",
+            "InternetService",
+            "OnlineSecurity",
+            "TechSupport",
+            "PaymentMethod",
+            "tenure",
+        }
+        assert decreasing & known_protective, (
+            f"protective factors missing: got {decreasing}"
+        )
+
+
 def test_predict_invalid_categorical():
     with TestClient(app) as client:
         payload = dict(VALID_PAYLOAD)
