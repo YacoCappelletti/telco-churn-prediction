@@ -33,6 +33,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# MCP tool artifacts (browser console logs, session junk)
+.playwright-mcp/
+
 # pytest / coverage
 .pytest_cache/
 .coverage
