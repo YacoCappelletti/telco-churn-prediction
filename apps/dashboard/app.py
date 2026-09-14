@@ -215,7 +215,7 @@ if len(fdf):
     rate_bar(
         ax, g1["mean"], g1["count"], "Churn rate by contract type", overall_rate=overall
     )
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=True)
     plt.close(fig)
 
     mm = g1["mean"].get("Month-to-month")
@@ -268,7 +268,7 @@ if len(fdf):
         xlabel="Months since signup",
         overall_rate=overall,
     )
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=True)
     plt.close(fig)
 
     early = g2["mean"].get("0-6")
@@ -308,7 +308,7 @@ if len(fdf):
         .reindex(["Fiber optic", "DSL", "No"])
     )
     rate_bar(ax1, g3["mean"], g3["count"], "By internet service", overall_rate=overall)
-    col_a.pyplot(fig1)
+    col_a.pyplot(fig1, use_container_width=True)
     plt.close(fig1)
 
     def tier(row):
@@ -332,7 +332,7 @@ if len(fdf):
             "By protection (Security/Support)",
             overall_rate=overall,
         )
-    col_b.pyplot(fig2)
+    col_b.pyplot(fig2, use_container_width=True)
     plt.close(fig2)
 
     fib = g3["mean"].get("Fiber optic")
@@ -390,7 +390,7 @@ if len(fdf):
     ax.set_ylabel("Churned monthly revenue ($)")
     ax.set_title("Monthly revenue at risk by price band")
     style_ax(ax)
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=True)
     plt.close(fig)
 
     mrr_share = mrr_at_risk / mrr if mrr else float("nan")
@@ -432,7 +432,7 @@ if len(fdf):
         "Churn rate by payment method",
         overall_rate=overall,
     )
-    st.pyplot(fig)
+    st.pyplot(fig, use_container_width=True)
     plt.close(fig)
 
     echeck = g5["mean"].get("Electronic check")

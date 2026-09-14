@@ -80,18 +80,35 @@ def load_metadata() -> dict:
     return {"model_name": "telco_churn_classifier", "model_version": "unknown"}
 
 
-def _contribution_labels(names: list[str]) -> dict[str, str]:
+def _build_column_owner(onehot) -> dict[str, str]:
+    """Map each one-hot column name to its parent categorical feature.
+
+    Uses the fitted encoder's category order (blocks of columns per feature,
+    in CATEGORICAL_FEATURES order) instead of name-prefix matching, so a
+    value that embeds another feature's name can never be misassigned.
+    """
+    names = list(onehot.get_feature_names_out(CATEGORICAL_FEATURES))
+    owner: dict[str, str] = {}
+    i = 0
+    for feature, categories in zip(CATEGORICAL_FEATURES, onehot.categories_):
+        for _ in categories:
+            owner[names[i]] = feature
+            i += 1
+    return owner
+
+
+def _contribution_labels(names: list[str], col_owner: dict[str, str]) -> dict[str, str]:
     """Map encoded feature names back to friendly, human-readable labels."""
     labels: dict[str, str] = {}
     for name in names:
         if name in FRIENDLY_NAMES:  # numeric feature
             labels[name] = FRIENDLY_NAMES[name]
         else:  # one-hot column: "FeatureValue" or "Feature_Value"
-            for feature in CATEGORICAL_FEATURES:
-                if name.startswith(feature):
-                    value = name[len(feature) :].lstrip("_")
-                    labels[name] = f"{FRIENDLY_NAMES[feature]} = {value}"
-                    break
+            feature = col_owner.get(name)
+            if feature is not None:
+                labels[name] = (
+                    f"{FRIENDLY_NAMES[feature]} = {name[len(feature) :].lstrip('_')}"
+                )
     return labels
 
 
@@ -123,6 +140,7 @@ def predict_one(
     encoded_names = list(NUMERIC_FEATURES) + list(
         onehot.get_feature_names_out(CATEGORICAL_FEATURES)
     )
+    col_owner = _build_column_owner(onehot)
     contributions = classifier.coef_[0] * x_enc
 
     per_feature: dict[str, float] = {}
@@ -130,15 +148,14 @@ def predict_one(
         if name in NUMERIC_FEATURES:
             per_feature[name] = per_feature.get(name, 0.0) + float(value)
         else:
-            for feature in CATEGORICAL_FEATURES:
-                if name.startswith(feature):
-                    # Inactive one-hot columns contribute 0 by construction, so
-                    # accumulate unconditionally: this keeps protective
-                    # categories (negative logit contribution) in the ranking.
-                    per_feature[feature] = per_feature.get(feature, 0.0) + float(value)
-                    break
+            # Inactive one-hot columns contribute 0 by construction, so
+            # accumulate unconditionally: this keeps protective
+            # categories (negative logit contribution) in the ranking.
+            feature = col_owner.get(name)
+            if feature is not None:
+                per_feature[feature] = per_feature.get(feature, 0.0) + float(value)
 
-    labels = _contribution_labels(encoded_names)
+    labels = _contribution_labels(encoded_names, col_owner)
     ranked = sorted(per_feature.items(), key=lambda kv: kv[1], reverse=True)
     positives = [
         {
