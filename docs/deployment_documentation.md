@@ -1,6 +1,6 @@
 # Deployment Documentation
 
-> Deliverables: `Dockerfile`, `docker-compose.yml`, `.env.example`, this document · Verified with `docker compose up --build` from a clean environment.
+> Components: `Dockerfile`, `docker-compose.yml`, `.env.example`, this document · Verified with `docker compose up --build` from a clean environment.
 
 ## 1. Architecture
 
@@ -63,7 +63,7 @@ the app always finds the API on boot.
 3. Reproduce analysis and artifacts from scratch:
    ```bash
    make audit && make dictionary && make business && make proposal
-   # Phase 3 gate: approve target in docs/json/target_approval.json
+   # target definition confirmed in docs/json/target_approval.json
    make train && make test
    ```
 4. Artifacts are regenerated deterministically (fixed random seed 42).

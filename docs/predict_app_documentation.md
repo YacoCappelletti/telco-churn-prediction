@@ -1,6 +1,6 @@
 # Predictive App Documentation - Telco Churn Predictor
 
-> Phase 6 deliverable · App: `apps/predict_app/app.py` · Run: `make predict-app` (Streamlit, port 8501 by default)
+> App: `apps/predict_app/app.py` · Run: `make predict-app` (Streamlit, port 8501 by default)
 
 ## 1. What it does
 
@@ -21,7 +21,7 @@ A form-based app for retention teams to score one customer at a time:
      the recommendation, not the 0.5 flag
    - **Main contributing factors** (increases/decreases risk)
    - **Business recommendation** per risk band (contract migration, bundling,
-     payment migration — the four Phase 2 levers)
+     payment migration — the four business levers)
    - Model name/version and scoring timestamp for traceability
 
 ![Predictive app - input form](images/ui_predict_form.png)

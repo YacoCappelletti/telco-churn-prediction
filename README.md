@@ -9,8 +9,8 @@
 
 End-to-end analytical solution over the **IBM Telco Customer Churn** dataset
 ([Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn),
-7,043 customers × 21 columns): data audit, business analysis, an
-**approved-target churn model** served through an API, a predictive Streamlit
+7,043 customers × 21 columns): data audit, business analysis, a churn model
+built on a validated target, served through an API, a predictive Streamlit
 app, a business dashboard, and Docker deployment.
 
 ## TL;DR
@@ -25,7 +25,7 @@ app, a business dashboard, and Docker deployment.
   through a REST API that returns probability, per-feature explanations and a
   business recommendation.
 - **What's inside:** data audit → business analysis (5 questions with scripts,
-  metrics and charts) → target approval gate → model training → FastAPI →
+  metrics and charts) → target definition → model training → FastAPI →
   Streamlit predictive app → business dashboard → Docker. **20 tests**, no
   notebooks, pinned dependencies.
 - **Try it:** `make setup && make train`, then `make api` + `make predict-app`
@@ -58,7 +58,7 @@ API with interactive docs (OpenAPI/Swagger):
 
 ```
 IBM Telco dataset (7,043 × 21)
-        │   audit → business analysis → target approval gate
+        │   audit → business analysis → target definition
         ▼
 scikit-learn pipeline (median impute + scale · one-hot · logistic regression)
         │   artifacts: final_model.joblib · preprocessor.joblib · model_metadata.json
@@ -79,7 +79,7 @@ Docker Compose: api :8010 · predict_app :8511 · dashboard :8512
 ```
 ├── data/raw/                  # Source dataset
 ├── docs/                      # All reports (md), snippets/, json/, images/
-├── scripts/                   # 00..02 phase scripts, q01..q05, train_*, evaluate_final_model
+├── scripts/                   # audit/dictionary/proposal scripts, q01..q05, train_*, evaluate_final_model
 ├── src/data/                  # Shared loaders/utils
 ├── src/model/                 # Preprocessing pipeline + config helpers
 ├── src/api/                   # FastAPI app (main, schemas, predict)
@@ -123,23 +123,22 @@ Reproduce the full analysis from scratch:
 
 ```bash
 make audit && make dictionary && make business && make proposal
-# Phase 3 gate: approve the target in docs/json/target_approval.json
+# target definition confirmed in docs/json/target_approval.json
 make train && make test
 ```
 
 ## Pipeline
 
-1. **Phase 1** - Data audit: quality report + data dictionary + problem
-   statement (no target selection).
-2. **Phase 2** - Business analysis: 10 questions → 5 selected, each with
-   script, snippet, metrics JSON and chart.
-3. **Phase 3** - Target proposal (`Churn`, classification) → **user approval
-   gate** (`docs/json/target_approval.json`).
-4. **Phase 4** - Baseline + LR/DT/RF candidates (5-fold stratified CV) →
+1. **Data audit** - quality report + data dictionary + problem statement.
+2. **Business analysis** - 10 questions → 5 selected, each with script,
+   snippet, metrics JSON and chart.
+3. **Target definition** - target (`Churn`, classification) evaluated on
+   14 criteria and validated before modeling (`docs/json/target_approval.json`).
+4. **Model** - baseline + LR/DT/RF candidates (5-fold stratified CV) →
    single test evaluation → artifacts + reports.
-5. **Phase 5** - FastAPI with validation, logging, versioning and explanations.
-6. **Phase 6** - Streamlit predictive app connected to the API.
-7. **Phase 7** - Business dashboard (KPIs, 5 questions, filters, actions).
+5. **API** - FastAPI with validation, logging, versioning and explanations.
+6. **Predictive app** - Streamlit form connected to the API.
+7. **Dashboard** - business dashboard (KPIs, 5 questions, filters, actions).
 8. **Deployment** - Docker Compose (api + predict_app + dashboard).
 
 ## Documentation
@@ -147,7 +146,7 @@ make train && make test
 | Read | To see |
 | ---- | ------ |
 | [`docs/model_report.md`](docs/model_report.md) + [`model_card.md`](docs/model_card.md) | How candidates were compared, why Logistic Regression won, final test metrics, feature importance and limitations |
-| [`docs/target_proposal.md`](docs/target_proposal.md) | How the target variable was proposed on 14 criteria and approved by the user |
+| [`docs/target_proposal.md`](docs/target_proposal.md) | How the target variable was evaluated on 14 criteria and defined before modeling |
 | [`docs/business_analysis_report.md`](docs/business_analysis_report.md) | The 5 selected business questions with data-backed insights and recommended actions |
 | [`docs/data_dictionary.md`](docs/data_dictionary.md) + [`data_quality_report.md`](docs/data_quality_report.md) | Column-level audit: types, domains, leakage flags, missing values, imbalance |
 | [`docs/api_documentation.md`](docs/api_documentation.md) | Endpoints, schemas, error handling and request examples |
@@ -156,9 +155,10 @@ make train && make test
 
 ## Engineering highlights
 
-- **Target approval gate:** no model was trained until the target variable
-  was explicitly approved by the user — the approval is recorded with
-  timestamp in `docs/json/target_approval.json` (Phase 3 gate).
+- **Target validated before modeling:** the target variable was evaluated on
+  14 criteria (business alignment, leakage, data quality, ...) and the
+  definition confirmed before any training — recorded with timestamp in
+  `docs/json/target_approval.json`.
 - **No notebooks:** every number in the reports is reproducible from a script
   in `/scripts` (audit, dictionary, 5 business questions, training,
   evaluation).

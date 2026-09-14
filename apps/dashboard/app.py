@@ -113,7 +113,7 @@ insights = load_json("insights")
 
 st.title("Telco Customer Churn - Business Dashboard 📊")
 st.caption(
-    "Phase 7 deliverable · Answers: What happened? · Why did it happen? · What should the business do? · Data: 7,043-customer snapshot"
+    "Answers: What happened? · Why did it happen? · What should the business do? · Data: 7,043-customer snapshot"
 )
 
 # --- Filters ---------------------------------------------------------------
@@ -193,7 +193,7 @@ elif len(fdf) < 50:
 
 # --- Executive answers -------------------------------------------------------
 st.markdown("## Executive summary")
-st.caption("Global Phase-2 synthesis - not affected by the sidebar filters.")
+st.caption("Global synthesis - not affected by the sidebar filters.")
 syn = insights["synthesis"]
 c1, c2, c3 = st.columns(3)
 c1.error(f"**What happened?**\n\n{syn['what_happened']}")
@@ -474,6 +474,6 @@ if len(fdf):
 # --- Footer -----------------------------------------------------------------
 st.divider()
 st.caption(
-    "Evidence: scripts q01-q05 (docs/snippets), metrics (docs/json), model report and "
-    "target approval (Phase 3). Cross-sectional snapshot; correlations are not causal effects."
+    "Evidence: analysis scripts and metrics in docs/. Cross-sectional snapshot; "
+    "correlations are not causal effects."
 )

@@ -102,7 +102,7 @@ st.title("Telco Churn Predictor 📶")
 st.caption(
     "Predicts how likely a customer is to churn, explains the main drivers and "
     "gives a business recommendation. Model: logistic regression v1.0.0 "
-    "(target `Churn`, approved in Phase 3)."
+    "(target: `Churn`)."
 )
 
 if st.sidebar.button("Re-check API status"):

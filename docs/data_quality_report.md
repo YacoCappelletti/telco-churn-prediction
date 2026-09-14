@@ -49,7 +49,7 @@ No IQR outliers in any numeric column. `TotalCharges` is naturally right-skewed 
 ## 7. Class imbalance (outcome-like flag)
 
 - The only outcome-like flag in the dataset is `Churn` (Yes: 1,869 = 26.54%, No: 5,174 = 73.46%).
-- Imbalance ratio (No : Yes) = 2.77 : 1 — a **moderate imbalance**. If this flag were ever used for predictive modeling, plain accuracy would be a misleading metric and stratified sampling / PR-style metrics would be required. (Recorded here as a data-quality fact only; no target decision is made in this phase.)
+- Imbalance ratio (No : Yes) = 2.77 : 1 — a **moderate imbalance**. If this flag were ever used for predictive modeling, plain accuracy would be a misleading metric and stratified sampling / PR-style metrics would be required.
 
 ![Class balance of the Churn flag](images/dq_class_balance.png)
 *Figure 1 — Class balance of the outcome-like flag (chart: `scripts/03_doc_charts.py`).*
@@ -96,20 +96,17 @@ No IQR outliers in any numeric column. `TotalCharges` is naturally right-skewed 
 | `DSL` | $56.15 |
 | `Fiber optic` | $91.68 |
 | `No` | $20.15 |
+
 | Contract | Median monthly charge |
 | -------- | --------------------: |
 | `Month-to-month` | $73.25 |
 | `One year` | $68.75 |
 | `Two year` | $64.35 |
 
-## 9. Initial hypotheses (to be validated in Phase 2)
+## 9. Initial hypotheses (validated in the business analysis report)
 
 1. **Contract commitment drives retention.** 55% of the base is on month-to-month contracts; lock-in contracts (1-2 years) plausibly reduce churn. Highest-impact hypothesis to validate.
 2. **New customers are the fragile segment.** A tenure spike at 0-3 months plus 11 zero-tenure rows suggests onboarding is a churn-critical window.
 3. **Fiber optic is the premium - and possibly problematic - product.** It carries a median monthly charge of $91.68 vs $56.15 for DSL; premium price with under-delivered expectations is a classic churn driver.
 4. **Payment friction may matter.** 33.6% of customers pay by electronic check (manual, non-recurring); manual payment methods often correlate with churn vs automatic payments.
-5. **Revenue concentration risk.** With ARPU around $65 and 26.5% of customers flagged as churned, the business impact of churn is material; revenue at risk must be quantified in Phase 2.
-
-## 10. Phase 1 compliance note
-
-This report is diagnostic. **No target variable has been selected, defined, ranked, or proposed in this phase.** The `Churn` distribution is reported strictly as a data-quality characteristic (class imbalance), as required by the audit checklist. Candidate-target analysis belongs to Phase 3.
+5. **Revenue concentration risk.** With ARPU around $65 and 26.5% of customers flagged as churned, the business impact of churn is material; revenue at risk must be quantified.

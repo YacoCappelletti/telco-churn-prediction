@@ -1,6 +1,6 @@
 # Model Report - Telco Churn Classifier
 
-> Phase 4 deliverable · Generated 2026-09-13 · Reference: `docs/json/target_approval.json` (status: **approved**, target = `Churn`, problem type = classification)
+> Generated 2026-09-13 · Target: `Churn` (validated, `docs/json/target_approval.json`) · problem type = classification
 
 ## 1. Problem definition
 
@@ -10,10 +10,10 @@ onboarding care, bundle offers, payment migration - see
 `docs/business_analysis_report.md`) can be prioritized by expected risk
 weighted by monthly revenue at risk.
 
-## 2. Approved target variable
+## 2. Defined target variable
 
-- **Target:** `Churn` (Yes/No) · **Positive class:** `Yes` · **Approval:** Phase 3 gate, `docs/json/target_approval.json`, approved 2026-09-13 by explicit user confirmation.
-- **Type justification (classification):** the target is a binary outcome flag; the business need is a *ranking score* (probability) to prioritize a fixed-capacity retention campaign, not a numeric estimate; regression on `tenure`/charges was rejected in Phase 3 for weaker actionability and leakage/proxy concerns.
+- **Target:** `Churn` (Yes/No) · **Positive class:** `Yes` · **Validation:** target defined and validated on 2026-09-13, recorded in `docs/json/target_approval.json`.
+- **Type justification (classification):** the target is a binary outcome flag; the business need is a *ranking score* (probability) to prioritize a fixed-capacity retention campaign, not a numeric estimate; regression on `tenure`/charges was rejected in the target evaluation for weaker actionability and leakage/proxy concerns.
 
 ## 3. Data split
 
@@ -74,7 +74,7 @@ on the untouched test set:
 
 **Business view:** ranking customers by predicted risk, the top 10% catch
 **27.8% of all churners (lift 2.78x vs random)**. At ~$74 ARPU for churners
-(Phase 2), a campaign touching the top decile addresses ≈ $38.7K of the
+(see business analysis), a campaign touching the top decile addresses ≈ $38.7K of the
 $139K/mo at-risk revenue.
 
 **Calibration:** Brier 0.138 vs base-rate-implied 0.199 → probabilities are
@@ -95,7 +95,7 @@ PR/ROC curves, the confusion matrix and the permutation importance.
 | 7 | `TechSupport` | 0.0118 | 0.0039 |
 | 8 | `OnlineSecurity` | 0.0097 | 0.0035 |
 
-The model's story matches the Phase 2 analysis: early-tenure customers on
+The model's story matches the business analysis: early-tenure customers on
 premium fiber plans with month-to-month contracts are the churn core - the
 same segments the business levers target.
 

@@ -1,10 +1,10 @@
 # API Documentation - Telco Churn Prediction API
 
-> Phase 5 deliverable · FastAPI app: `src/api/main.py` · Run: `make api` → http://localhost:8000 · Interactive docs: `/docs` (Swagger UI)
+> FastAPI app: `src/api/main.py` · Run: `make api` → http://localhost:8000 · Interactive docs: `/docs` (Swagger UI)
 
 ## 1. Overview
 
-REST API that exposes the approved churn model (`Churn`, binary
+REST API that exposes the validated churn model (`Churn`, binary
 classification, logistic regression pipeline v1.0.0). Every prediction
 includes the probability, risk band, main contributing factors and a business
 recommendation.
@@ -112,6 +112,6 @@ logic), invalid categorical (422), out-of-range numeric (422), missing field
   (`coef × standardized value`) aggregated to original feature groups —
   consistent with the selected model (logistic regression).
 - Recommendations are rule-based per risk band, aligned with the four
-  business levers from Phase 2 (contract migration, onboarding, bundling,
-  payment migration).
+  business levers from the business analysis (contract migration, onboarding,
+  bundling, payment migration).
 - Schemas: `src/api/schemas.py` · Prediction logic: `src/api/predict.py`.

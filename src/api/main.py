@@ -53,7 +53,7 @@ app = FastAPI(
     description=(
         "Predicts customer churn probability for a telecom operator and "
         "explains the main contributing factors with a business recommendation. "
-        "Trained on the approved target `Churn` (see docs/target_proposal.md)."
+        "Trained on the `Churn` target (see docs/target_proposal.md)."
     ),
     lifespan=lifespan,
 )

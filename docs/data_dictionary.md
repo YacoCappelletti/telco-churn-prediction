@@ -51,7 +51,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 - **Description:** Unique customer identifier with format 'NNNN-XXXX' (digits + 5 alphanumeric characters). One per customer.
 - **Examples:** `7590-VHVEG`, `5575-GNVDE`, `3668-QPYBK`
 - **Feature candidate:** No - 100% unique per row: zero predictive value. Exclude from features; use only as a join key / traceability ID.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None. Randomly assigned identifier.
 
 ### `gender`
@@ -68,7 +68,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `Female`, `Male`
 - **Feature candidate:** Yes - Standard demographic segmentation variable.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None. Known at signup.
 
 ### `SeniorCitizen`
@@ -85,7 +85,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `0`, `1`
 - **Feature candidate:** Yes - Age segment proxy; useful for demographic targeting of retention offers.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `Partner`
@@ -102,7 +102,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `Yes`, `No`
 - **Feature candidate:** Yes - Household-size proxy; multi-person households churn less in telecom.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `Dependents`
@@ -119,7 +119,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`
 - **Feature candidate:** Yes - Family bundle indicator; correlates with plan choice and stickiness.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `tenure`
@@ -130,7 +130,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 - **Range:** 0 … 72 · mean 32.37 · median 29 · std 24.56 · IQR outliers: 0
 - **Examples:** `1`, `34`, `2`
 - **Feature candidate:** Yes - Strong behavioural variable: contract age at the snapshot date.
-- **Candidate target (Phase 3):** Yes. Conceivable as a retention-duration outcome (regression / survival analysis), but weaker direct business actionability; to be evaluated in Phase 3.
+- **Candidate target:** Yes. Conceivable as a retention-duration outcome (regression / survival analysis), but weaker direct business actionability.
 - **Leakage risk:** None for churn-style prediction: tenure at scoring time is known. Perfectly collinear with TotalCharges accumulation.
 
 ### `PhoneService`
@@ -147,7 +147,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`
 - **Feature candidate:** Yes - Product-mix variable.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `MultipleLines`
@@ -165,7 +165,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No phone service`, `No`, `Yes`
 - **Feature candidate:** Yes - Product-mix variable with explicit structural category.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `InternetService`
@@ -183,7 +183,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `DSL`, `Fiber optic`, `No`
 - **Feature candidate:** Yes - Core product line; largest monthly-charge differentiator (median $91.68 fiber vs $56.15 DSL).
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `OnlineSecurity`
@@ -201,7 +201,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`, `No internet service`
 - **Feature candidate:** Yes - Value-added service; retention-relevant add-on.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `OnlineBackup`
@@ -219,7 +219,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `Yes`, `No`, `No internet service`
 - **Feature candidate:** Yes - Value-added service; retention-relevant add-on.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `DeviceProtection`
@@ -237,7 +237,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`, `No internet service`
 - **Feature candidate:** Yes - Value-added service; retention-relevant add-on.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `TechSupport`
@@ -255,7 +255,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`, `No internet service`
 - **Feature candidate:** Yes - Service-quality proxy; retention-relevant add-on.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `StreamingTV`
@@ -273,7 +273,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`, `No internet service`
 - **Feature candidate:** Yes - Engagement/entertainment bundle variable.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `StreamingMovies`
@@ -291,7 +291,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`, `No internet service`
 - **Feature candidate:** Yes - Engagement/entertainment bundle variable.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `Contract`
@@ -309,7 +309,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `Month-to-month`, `One year`, `Two year`
 - **Feature candidate:** Yes - Strongest commitment/switching-cost variable in the dataset; 55% of the base is month-to-month.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None. Contract type is known at any scoring time.
 
 ### `PaperlessBilling`
@@ -326,7 +326,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `Yes`, `No`
 - **Feature candidate:** Yes - Billing-behaviour variable; interacts with payment method.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `PaymentMethod`
@@ -345,7 +345,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `Electronic check`, `Mailed check`, `Bank transfer (automatic)`
 - **Feature candidate:** Yes - Distinguishes manual vs automatic payments - a known friction/retention lever.
-- **Candidate target (Phase 3):** No.
+- **Candidate target:** No.
 - **Leakage risk:** None.
 
 ### `MonthlyCharges`
@@ -356,7 +356,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 - **Range:** 18.25 … 118.75 · mean 64.76 · median 70.35 · std 30.09 · IQR outliers: 0
 - **Examples:** `29.85`, `56.95`, `53.85`
 - **Feature candidate:** Yes - Core price variable; price-sensitivity analyses.
-- **Candidate target (Phase 3):** Yes. Could serve as a price/ARPU regression outcome, but weak business actionability as a target; to be evaluated in Phase 3.
+- **Candidate target:** Yes. Could serve as a price/ARPU regression outcome, but weak business actionability as a target.
 - **Leakage risk:** None. Known for any active customer at scoring time.
 
 ### `TotalCharges`
@@ -367,7 +367,7 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 - **Range:** 18.8 … 8684.8 · mean 2283.3 · median 1397.47 · std 2266.77 · IQR outliers: 0
 - **Examples:** `29.85`, `1889.5`, `108.15`
 - **Feature candidate:** Yes - Lifetime revenue proxy. Requires cleaning (numeric coercion + imputation of 11 blanks, e.g. tenure x MonthlyCharges).
-- **Candidate target (Phase 3):** Yes. Candidate for a customer-value / revenue regression, but weak actionability as a direct target; to be evaluated in Phase 3.
+- **Candidate target:** Yes. Candidate for a customer-value / revenue regression, but weak actionability as a direct target.
 - **Leakage risk:** Temporal-proxy risk: TotalCharges accumulates over tenure and is approximately tenure x MonthlyCharges, so it partially encodes tenure. It is available at scoring time for existing customers, but a model relying on it would not generalise to brand-new customers. Check collinearity before use.
 
 ### `Churn`
@@ -384,8 +384,8 @@ Roles: Identifier · Metric · Dimension · Status flag · Target · Timestamp �
 
 - **Examples:** `No`, `Yes`
 - **Feature candidate:** No - It is the only outcome-like flag in the dataset. If it were used as a feature for any model, it would leak the very outcome being predicted. Must be excluded from feature matrices.
-- **Candidate target (Phase 3):** Yes. Only outcome-like flag in the dataset; natural candidate-target for retention problems. Selection/ranking belongs to Phase 3 - no decision is made here.
-- **Leakage risk:** It IS the outcome. Using it as a feature would be target leakage; predicting it is the legitimate use, pending Phase 3 approval.
+- **Candidate target:** Yes. Only outcome-like flag in the dataset; natural candidate-target for retention problems.
+- **Leakage risk:** It IS the outcome. Using it as a feature would be target leakage; predicting it is the legitimate use.
 
 ## Key & Relationships
 
@@ -404,7 +404,7 @@ Single-table dataset: no foreign keys to external tables.
 | - | ------ | ----- | -------- | -------------- |
 | 1 | `TotalCharges` | Implicit nulls / wrong storage type | 11 blank strings `" "` stored in an otherwise numeric column (0.16%); all belong to `tenure = 0` customers | Coerce to numeric; impute as `tenure × MonthlyCharges` (first invoice) or drop the 11 rows |
 | 2 | `SeniorCitizen` | Numeric encoding of a boolean | Stored as 0/1 int | Treat as categorical boolean in analysis and UI |
-| 3 | `Churn` | Moderate class imbalance | Yes = 26.54% vs No = 73.46% (ratio 2.77 : 1) | If modeled, use stratified splits and imbalance-aware metrics (no target decision in this phase) |
+| 3 | `Churn` | Moderate class imbalance | Yes = 26.54% vs No = 73.46% (ratio 2.77 : 1) | If modeled, use stratified splits and imbalance-aware metrics |
 | 4 | `TotalCharges` | Right skew (accumulation) | Max $8,684.80 vs median $1,397.48 | Not an error: reflects long-tenure customers; consider log transform or capping in modeling |
 | 5 | Add-on columns | Redundant structural level | `No internet service` / `No phone service` duplicate information already in `InternetService` / `PhoneService` | Keep as-is (informative) or normalise to Yes/No + separate flag |
 

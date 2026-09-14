@@ -1,10 +1,10 @@
 # Dashboard Documentation - Telco Customer Churn
 
-> Phase 7 deliverable · App: `apps/dashboard/app.py` · Run: `make dashboard` (Streamlit, port 8501 by default — use a different port if the predict app is running on 8501, e.g. `streamlit run apps/dashboard/app.py --server.port 8502`; in Docker Compose it is served on host port 8512)
+> App: `apps/dashboard/app.py` · Run: `make dashboard` (Streamlit, port 8501 by default — use a different port if the predict app is running on 8501, e.g. `streamlit run apps/dashboard/app.py --server.port 8502`; in Docker Compose it is served on host port 8512)
 
 ## 1. Purpose
 
-A business-facing dashboard that communicates the Phase 2 insights. It is not
+A business-facing dashboard that communicates the business-analysis insights. It is not
 just charts: every section pairs evidence with interpretation and a
 recommended action, and the executive summary answers the three required
 questions:
@@ -25,7 +25,7 @@ questions:
   Retention spend weighted by monthly revenue at risk.
 
 ![Business dashboard - KPIs and executive summary](images/ui_dashboard_overview.png)
-*Filtered KPIs and the global Phase-2 executive summary.*
+*Filtered KPIs and the global executive summary.*
 
 ![Business dashboard - Q1 churn by contract](images/ui_dashboard_question.png)
 *Per-question section: live chart + interpretation that follows the sidebar filters + recommended action.*
@@ -52,7 +52,7 @@ questions:
 
 Each section shows the chart and an **Interpretation** paragraph whose key
 numbers are computed **live from the filtered base** (they follow the sidebar
-filters), plus a **Recommended action**. The Phase 2 metrics files
+filters), plus a **Recommended action**. The business-analysis metrics files
 (`docs/json/q0*_metrics.json`) remain the reproducible benchmark for the
 full, unfiltered dataset.
 
@@ -74,11 +74,11 @@ per-question interpretations are hidden in that case).
 
 - Data: `data/raw/Telco-Customer-Churn.csv` loaded via the documented cleaning
   rule (11 blank TotalCharges → tenure × MonthlyCharges).
-- Narrative text: `docs/json/insights.json` (Phase 2) — used only for the
-  Executive summary, which is the **global Phase-2 synthesis** and is labeled
+- Narrative text: `docs/json/insights.json` — used only for the
+  Executive summary, which is the **global synthesis** and is labeled
   as not affected by the sidebar filters.
 - Per-question interpretations: computed live from the filtered base (same
-  tenure-bucket edges as the Phase 2 script `scripts/q02_tenure_vs_churn.py`),
+  tenure-bucket edges as the analysis script `scripts/q02_tenure_vs_churn.py`),
   so chart and text always agree.
 - Cross-sectional caveat is displayed in the footer: correlations are not
   causal effects.

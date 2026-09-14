@@ -7,7 +7,7 @@
 | Model name | `telco_churn_classifier` |
 | Version | 1.0.0 |
 | Task | Binary classification (churn prediction) |
-| Approved target | `Churn` (positive class: `Yes`) — Phase 3 approval in `docs/json/target_approval.json` |
+| Approved target | `Churn` (positive class: `Yes`) — validated target, record in `docs/json/target_approval.json` |
 | Selected algorithm | Logistic Regression (C=1.0, max_iter=1000) inside a preprocessing Pipeline |
 | Training data | IBM Telco Customer Churn snapshot, 7,043 customers |
 | Split | Train 4,225 / Validation 1,409 / Test 1,409 (stratified, seed 42) |

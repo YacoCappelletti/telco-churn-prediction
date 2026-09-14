@@ -1,14 +1,7 @@
 # Business Analysis Report - Telco Customer Churn
 
-> Phase 2 deliverable · Dataset: `data/raw/Telco-Customer-Churn.csv` (7,043 customers × 21 columns) · Generated 2026-09-13
+> Dataset: `data/raw/Telco-Customer-Churn.csv` (7,043 customers × 21 columns) · Generated 2026-09-13
 > Inputs: `docs/problem_statement.md`, `docs/data_dictionary.md`, `docs/data_quality_report.md` · Evidence: `docs/snippets/q01-q05_output.md`, `docs/json/q0*_metrics.json`, `docs/images/q0*_chart.png`
-
-## 0. Compliance note
-
-**This phase did not select, rank, or propose any target variable, and did not
-train any model.** The `Churn` flag is used here strictly as a descriptive
-segmentation key for business questions. Target selection is a separate
-Phase 3 process with explicit user approval.
 
 ## 1. Executive summary
 
@@ -208,9 +201,3 @@ e-check + paperless cell.
   be tested with this dataset alone.
 - **Synthetic sample.** The IBM Telco dataset is a curated sample; magnitudes
   may not match a real operator exactly.
-
-## 10. Compliance note (repeated)
-
-**No target variable was selected or proposed in this phase, and no model was
-trained.** The outputs of this phase feed Phase 3 (target proposal), which
-requires explicit user approval before any modeling begins.

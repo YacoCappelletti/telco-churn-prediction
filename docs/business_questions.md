@@ -1,6 +1,6 @@
 # Business Questions - Telco Customer Churn
 
-> Phase 2 deliverable · Dataset: `data/raw/Telco-Customer-Churn.csv` (7,043 customers) · JSON: `docs/json/business_questions.json`
+> Dataset: `data/raw/Telco-Customer-Churn.csv` (7,043 customers) · JSON: `docs/json/business_questions.json`
 
 ## 1. The 10 candidate business questions
 
@@ -38,7 +38,7 @@ contract/tenure signals), Q7 (covered by Q4's price bands), Q8 (action already
 covered by Q1+Q2), Q9 (weak differentials vs protection add-ons), Q10 (covered
 by Q3's protection tiers).
 
-## 3. Per-question deliverables
+## 3. Per-question artifacts
 
 | Question | Script | Snippet | Metrics | Chart |
 | -------- | ------ | ------- | ------- | ----- |
@@ -52,11 +52,3 @@ Every insight is justified with code: each script loads the raw data, computes
 its metrics, and writes the JSON + snippet + chart listed above. Full
 interpretation and recommended actions live in
 `docs/business_analysis_report.md` and `docs/snippets/*.md`.
-
-## 4. Compliance note
-
-**This phase did not select, rank, or propose any target variable, and did not
-train any model.** The `Churn` flag is used strictly as a descriptive
-segmentation key to answer business questions, as permitted for business
-analysis; target-variable selection is a separate Phase 3 process requiring
-user approval.

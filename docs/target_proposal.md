@@ -1,8 +1,7 @@
 # Target Variable Proposal - Telco Customer Churn
 
-> Phase 3 deliverable · Generated 2026-09-13 17:24 UTC · Status: **PENDING USER APPROVAL**
+> Generated 2026-09-13 17:24 UTC · Target: **`Churn`** (binary classification, positive class: `Yes`) · Validated 2026-09-13 — record: `docs/json/target_approval.json`
 > Inputs: `problem_statement.md`, `business_analysis_report.md`, `data_dictionary.md`, `data_quality_report.md`, `json/insights.json`
-> **Update:** approved by the user on 2026-09-13 — see `docs/json/target_approval.json` (status `approved`, target `Churn`, classification). The "pending" status below is kept as the historical record of this phase's deliverable.
 
 ## 1. Recommended target variable
 
@@ -27,8 +26,8 @@ leakage, temporal consistency, ethical/legal restrictions, and ML feasibility
 
 ### Business
 
-The primary problem (Phase 1) is customer churn; the business analysis
-(Phase 2) quantified it: 26.5% churn rate, $139,131/month churned revenue
+The primary problem (problem statement) is customer churn; the business
+analysis quantified it: 26.5% churn rate, $139,131/month churned revenue
 (30.5% of MRR, ~$1.67M annualized), concentrated in month-to-month contracts
 (42.7% churn), first-year customers (55.5% of churn), unprotected fiber users
 and electronic-check payers. A churn probability is the single most useful
@@ -58,8 +57,8 @@ affects a feature, not the target, and has a documented fix. Class imbalance
 ## 4. Evidence trail
 
 - **Data dictionary** (`data_dictionary.md`): Churn is the only outcome-like
-  flag; flagged `feature_candidate = No` (leakage if used as a feature) and as
-  a Phase 3 target candidate.
+  flag; flagged `feature_candidate = No` (leakage if used as a feature) and
+  marked as target candidate.
 - **Data quality report** (`data_quality_report.md`): 26.54%/73.46% split,
   imbalance ratio 2.77:1, no missing values in Churn, clean primary key.
 - **Business analysis** (`business_analysis_report.md`): revenue at risk,
@@ -89,7 +88,7 @@ affects a feature, not the target, and has a documented fix. Class imbalance
    collinearity treatment; available at scoring time for existing customers.
 4. `customerID` excluded (unique ID, zero predictive value).
 
-## 7. Open questions for the user
+## 7. Open questions considered
 
 1. Are demographic attributes (gender, SeniorCitizen) acceptable as model
    features, or should they be excluded by fairness policy?
@@ -104,7 +103,7 @@ affects a feature, not the target, and has a documented fix. Class imbalance
 `TotalCharges` (value regression) - each rated lower on business alignment
 and/or actionability; details in `docs/json/target_proposal.json`.
 
-## 9. Approval status
+## 9. Definition record
 
-**`pending_user_approval`** - no model training will start until the user
-explicitly approves (see `docs/json/target_approval.json`).
+The validated target (`Churn`, positive class `Yes`) is recorded with
+timestamp in `docs/json/target_approval.json`.

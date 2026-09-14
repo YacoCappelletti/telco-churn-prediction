@@ -1,6 +1,6 @@
 # Problem Statement - Telco Customer Churn Dataset
 
-> Phase 1 deliverable · Generated from `data/raw/Telco-Customer-Churn.csv` (7,043 customers × 21 columns) · See also: `data_dictionary.md`, `data_quality_report.md`, `json/data_quality_metrics.json`
+> Generated from `data/raw/Telco-Customer-Churn.csv` (7,043 customers × 21 columns) · See also: `data_dictionary.md`, `data_quality_report.md`, `json/data_quality_metrics.json`
 
 ## 1. Business context
 
@@ -32,7 +32,7 @@ tenure, charges) that plausibly explains *why* customers leave - making this
 problem both diagnosable (descriptive) and predictable (predictive).
 
 ![Class balance of the Churn flag](images/dq_class_balance.png)
-*Figure 1 — Class balance of the outcome-like `Churn` flag (diagnostic context only; no target decision in this phase).*
+*Figure 1 — Class balance of the outcome-like `Churn` flag (diagnostic context).*
 
 ### P2. Revenue exposure is quantifiable but not yet localized
 
@@ -69,8 +69,8 @@ outcome flag.
   variables supports both retrospective analysis and forward-looking scoring.
 
 P2-P4 are treated as **supporting analyses**: they sharpen the churn problem
-(where the risk sits, which levers exist) and will be developed as business
-questions in Phase 2.
+(where the risk sits, which levers exist) and are developed as business
+questions in the business analysis report.
 
 ## 4. Business metric expected to be impacted
 
@@ -89,26 +89,18 @@ questions in Phase 2.
   retention-duration view; weaker actionability, kept only as a preliminary
   hypothesis.
 - **Descriptive segmentation** - even without modeling, segment-level churn
-  and revenue-at-risk analysis (Phase 2) already yields actionable insight.
+  and revenue-at-risk analysis already yields actionable insight.
 
-These are *hypotheses only*. No problem type is decided in this phase.
+These are preliminary hypotheses.
 
-## 6. Possible candidate variables for future target analysis (unranked)
+## 6. Possible candidate variables for target analysis (unranked)
 
 Columns that could plausibly play an outcome role and therefore merit formal
-evaluation in Phase 3 (flagged, **not ranked or selected**, in
-`data_dictionary.md`):
+evaluation (flagged, **not ranked or selected**, in `data_dictionary.md`):
 
 - `Churn` - the only Yes/No outcome-like flag in the dataset.
 - `tenure` - retention-duration candidate.
 - `MonthlyCharges` / `TotalCharges` - price / accumulated-value candidates.
 
-The final choice among them - or none of them - is a Phase 3 decision and
-requires explicit user approval before any modeling.
-
-## 7. Explicit Phase 1 compliance statement
-
-**No target variable has been selected, defined, ranked, or proposed in this
-phase.** No model has been trained. The observations above are exploratory
-hypotheses to be refined by the Phase 2 business analysis and formalized by
-the Phase 3 target proposal with user approval.
+The final choice among them is documented in `target_proposal.md` with its
+definition record in `docs/json/target_approval.json`.
