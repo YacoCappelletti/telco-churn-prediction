@@ -20,6 +20,7 @@ from fastapi import FastAPI, HTTPException
 
 from src.api.predict import load_metadata, load_model, predict_one
 from src.api.schemas import HealthOutput, PredictionInput, PredictionOutput
+from src.model.pipeline import load_config
 
 logging.basicConfig(
     level=os.getenv("LOG_LEVEL", "INFO"),
@@ -33,6 +34,7 @@ async def lifespan(app: FastAPI):
     load_dotenv()
     app.state.model = load_model()
     app.state.metadata = load_metadata()
+    app.state.config = load_config()
     if app.state.model is not None:
         logger.info(
             "Model %s v%s loaded",
@@ -87,7 +89,12 @@ def predict(payload: PredictionInput) -> PredictionOutput:
             detail="Model is not available. Check /health and the model artifacts.",
         )
     try:
-        result = predict_one(model, payload.model_dump())
+        result = predict_one(
+            model,
+            payload.model_dump(),
+            config=app.state.config,
+            metadata=app.state.metadata,
+        )
     except Exception as exc:  # pragma: no cover - defensive catch-all
         logger.exception("Prediction failed")
         raise HTTPException(status_code=500, detail="Prediction failed.") from exc
@@ -101,8 +108,13 @@ def predict(payload: PredictionInput) -> PredictionOutput:
 
 @app.get("/v1/model-card")
 def model_card() -> dict:
-    """Full model metadata (name, version, metrics, features, limitations)."""
+    """Full model metadata (name, version, metrics, features, limitations).
+
+    Risk bands are merged from the model config so clients (e.g. the Streamlit
+    app) can render thresholds from the single source of truth.
+    """
     metadata = getattr(app.state, "metadata", None)
     if not metadata:
         raise HTTPException(status_code=503, detail="Model metadata not available.")
-    return metadata
+    config = getattr(app.state, "config", None) or {}
+    return {**metadata, "risk_bands": config.get("risk_bands", {})}

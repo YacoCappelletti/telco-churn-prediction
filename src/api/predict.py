@@ -95,9 +95,20 @@ def _contribution_labels(names: list[str]) -> dict[str, str]:
     return labels
 
 
-def predict_one(model, payload: dict) -> dict:
-    """Score one customer and build the prediction response body."""
-    config = load_config()
+def predict_one(
+    model,
+    payload: dict,
+    config: dict | None = None,
+    metadata: dict | None = None,
+) -> dict:
+    """Score one customer and build the prediction response body.
+
+    `config` and `metadata` are injected by the API from app.state (loaded
+    once at startup); when omitted they fall back to a disk read so direct
+    calls keep working.
+    """
+    config = config or load_config()
+    metadata = metadata or load_metadata()
     df = pd.DataFrame([payload])[FEATURES]
 
     prob = float(model.predict_proba(df)[0, 1])
@@ -160,7 +171,7 @@ def predict_one(model, payload: dict) -> dict:
         },
         "contributing_factors": positives + negatives,
         "business_recommendation": recommendation,
-        "model_version": load_metadata().get("model_version", "unknown"),
-        "model_name": load_metadata().get("model_name", "telco_churn_classifier"),
+        "model_version": metadata.get("model_version", "unknown"),
+        "model_name": metadata.get("model_name", "telco_churn_classifier"),
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }

@@ -4,6 +4,9 @@ Communicates the Phase 2 business insights with KPIs, the 5 selected
 business questions, filters by relevant dimensions, and interpretation +
 recommended actions. Answers: What happened? Why? What should we do?
 
+KPIs, charts and per-question interpretations follow the sidebar filters;
+the executive summary is the global Phase-2 synthesis (unfiltered).
+
 Run: make dashboard
 """
 
@@ -49,8 +52,33 @@ def style_ax(ax):
     ax.set_axisbelow(True)
 
 
-def rate_bar(ax, groups: pd.Series, counts: pd.Series, title: str, xlabel: str = ""):
-    rates = groups * 100
+def fmt_pct(value) -> str:
+    return f"{value:.1%}" if pd.notna(value) else "n/a"
+
+
+def rate_bar(
+    ax,
+    groups: pd.Series,
+    counts: pd.Series,
+    title: str,
+    xlabel: str = "",
+    overall_rate: float | None = None,
+):
+    rates = (groups * 100).dropna()
+    counts = counts.reindex(rates.index)
+    if not len(rates):
+        ax.set_title(title)
+        ax.text(
+            0.5,
+            0.5,
+            "no data under current filters",
+            ha="center",
+            va="center",
+            transform=ax.transAxes,
+            color=DARK,
+        )
+        style_ax(ax)
+        return
     colors = [CORAL if r == rates.max() else TEAL for r in rates]
     ax.bar(rates.index.astype(str), rates.values, color=colors, width=0.6, zorder=3)
     for i, (rate, n) in enumerate(zip(rates.values, counts.values)):
@@ -62,15 +90,16 @@ def rate_bar(ax, groups: pd.Series, counts: pd.Series, title: str, xlabel: str =
             fontsize=9,
             color=DARK,
         )
-    ax.axhline(overall * 100, color=DARK, lw=1.2, ls="--")
-    ax.text(
-        len(rates) - 0.4,
-        overall * 100 + 1.0,
-        f"overall {overall * 100:.1f}%",
-        ha="right",
-        fontsize=9,
-        color=DARK,
-    )
+    if overall_rate is not None:
+        ax.axhline(overall_rate * 100, color=DARK, lw=1.2, ls="--")
+        ax.text(
+            len(rates) - 0.4,
+            overall_rate * 100 + 1.0,
+            f"overall {overall_rate * 100:.1f}%",
+            ha="right",
+            fontsize=9,
+            color=DARK,
+        )
     ax.set_ylabel("Churn rate (%)")
     if xlabel:
         ax.set_xlabel(xlabel)
@@ -81,16 +110,6 @@ def rate_bar(ax, groups: pd.Series, counts: pd.Series, title: str, xlabel: str =
 
 df = load_data()
 insights = load_json("insights")
-q_metrics = {
-    name: load_json(name)
-    for name in [
-        "q01_metrics",
-        "q02_metrics",
-        "q03_metrics",
-        "q04_metrics",
-        "q05_metrics",
-    ]
-}
 
 st.title("Telco Customer Churn - Business Dashboard 📊")
 st.caption(
@@ -137,8 +156,10 @@ fdf = df[
 overall = float(fdf["churn_flag"].mean()) if len(fdf) else 0.0
 mrr = float(fdf["MonthlyCharges"].sum())
 mrr_at_risk = float(fdf.loc[fdf["churn_flag"] == 1, "MonthlyCharges"].sum())
-arpu_churned = float(fdf.loc[fdf["churn_flag"] == 1, "MonthlyCharges"].mean() or 0)
-arpu_retained = float(fdf.loc[fdf["churn_flag"] == 0, "MonthlyCharges"].mean() or 0)
+churned_bills = fdf.loc[fdf["churn_flag"] == 1, "MonthlyCharges"]
+retained_bills = fdf.loc[fdf["churn_flag"] == 0, "MonthlyCharges"]
+arpu_churned = float(churned_bills.mean()) if len(churned_bills) else 0.0
+arpu_retained = float(retained_bills.mean()) if len(retained_bills) else 0.0
 
 st.markdown("## KPIs (filtered)")
 k1, k2, k3, k4, k5 = st.columns(5)
@@ -160,13 +181,19 @@ k5.metric(
     help="Mean monthly bill of churned vs retained customers",
 )
 
-if len(fdf) < 50:
+if len(fdf) == 0:
+    st.error(
+        "No customers match the current filters - the charts and "
+        "interpretations below are hidden. Widen the filters to explore."
+    )
+elif len(fdf) < 50:
     st.warning(
         "The current filter leaves fewer than 50 customers - interpret rates with caution."
     )
 
 # --- Executive answers -------------------------------------------------------
 st.markdown("## Executive summary")
+st.caption("Global Phase-2 synthesis - not affected by the sidebar filters.")
 syn = insights["synthesis"]
 c1, c2, c3 = st.columns(3)
 c1.error(f"**What happened?**\n\n{syn['what_happened']}")
@@ -180,21 +207,45 @@ st.caption(
 )
 if len(fdf):
     fig, ax = plt.subplots(figsize=(7.2, 4))
-    g = (
+    g1 = (
         fdf.groupby("Contract")["churn_flag"]
         .agg(["count", "mean"])
         .reindex(["Month-to-month", "One year", "Two year"])
     )
-    rate_bar(ax, g["mean"], g["count"], "Churn rate by contract type")
+    rate_bar(
+        ax, g1["mean"], g1["count"], "Churn rate by contract type", overall_rate=overall
+    )
     st.pyplot(fig)
     plt.close(fig)
-b = q_metrics["q01_metrics"]["by_contract"]
-st.markdown(
-    f"**Interpretation:** Month-to-month churns at {b['Month-to-month']['churn_rate']:.1%} vs "
-    f"{b['Two year']['churn_rate']:.1%} for two-year terms, and carries ~87% of all churned revenue.\n\n"
-    "**Recommended action:** Contract-migration program: incentivize month-to-month customers "
-    "to 1-2 year terms; track churn-by-contract monthly."
-)
+
+    mm = g1["mean"].get("Month-to-month")
+    ty = g1["mean"].get("Two year")
+    mm_rev_share = (
+        fdf.loc[
+            (fdf["churn_flag"] == 1) & (fdf["Contract"] == "Month-to-month"),
+            "MonthlyCharges",
+        ].sum()
+        / mrr_at_risk
+        if mrr_at_risk
+        else float("nan")
+    )
+    if pd.notna(mm) and pd.notna(ty):
+        tail = (
+            f", and carries ~{mm_rev_share:.0%} of the churned revenue in this view."
+            if pd.notna(mm_rev_share)
+            else "."
+        )
+        interpretation = f"Month-to-month churns at {fmt_pct(mm)} vs {fmt_pct(ty)} for two-year terms{tail}"
+    else:
+        interpretation = "; ".join(
+            f"{idx} churns at {fmt_pct(row['mean'])} (n={int(row['count']):,})"
+            for idx, row in g1.dropna(subset=["mean"]).iterrows()
+        )
+    st.markdown(
+        f"**Interpretation (filtered view):** {interpretation}\n\n"
+        "**Recommended action:** Contract-migration program: incentivize month-to-month customers "
+        "to 1-2 year terms; track churn-by-contract monthly."
+    )
 
 # --- Q2 ---------------------------------------------------------------------
 st.markdown("## Q2 · Churn across the customer lifecycle")
@@ -203,7 +254,11 @@ if len(fdf):
     bins = [0, 6, 12, 24, 48, 60, 72]
     labels = ["0-6", "7-12", "13-24", "25-48", "49-60", "61-72"]
     cut = pd.cut(fdf["tenure"], bins=bins, labels=labels)
-    g2 = fdf.groupby(cut, observed=True)["churn_flag"].agg(["count", "mean"])
+    g2 = (
+        fdf.groupby(cut, observed=True)["churn_flag"]
+        .agg(["count", "mean"])
+        .reindex(labels)
+    )
     fig, ax = plt.subplots(figsize=(7.2, 4))
     rate_bar(
         ax,
@@ -211,17 +266,35 @@ if len(fdf):
         g2["count"],
         "Churn rate by tenure bucket",
         xlabel="Months since signup",
+        overall_rate=overall,
     )
     st.pyplot(fig)
     plt.close(fig)
-q2 = q_metrics["q02_metrics"]
-st.markdown(
-    f"**Interpretation:** Risk decays from {q2['churn_rate_by_tenure_bucket']['0-6']['churn_rate']:.1%} "
-    f"(first 6 months) to {q2['churn_rate_by_tenure_bucket']['61-72']['churn_rate']:.1%} after five years; "
-    f"first-year customers generate {q2['first_12_months_share_of_all_churn']:.0%} of all churn.\n\n"
-    "**Recommended action:** Stand up a 90-day onboarding program (setup call, first-invoice check, "
-    "expectation management) with month-3/6 cohort survival as its KPI."
-)
+
+    early = g2["mean"].get("0-6")
+    late = g2["mean"].get("61-72")
+    churned_n = int(fdf["churn_flag"].sum())
+    first12_share = (
+        fdf.loc[(fdf["churn_flag"] == 1) & (fdf["tenure"] <= 12)].shape[0] / churned_n
+        if churned_n
+        else float("nan")
+    )
+    if pd.notna(early) and pd.notna(late):
+        interpretation = (
+            f"Risk decays from {fmt_pct(early)} in the first 6 months to {fmt_pct(late)} "
+            f"after five years in this view; first-year customers generate "
+            f"{fmt_pct(first12_share)} of the churn shown."
+        )
+    else:
+        interpretation = "; ".join(
+            f"{idx} months churn at {fmt_pct(row['mean'])} (n={int(row['count']):,})"
+            for idx, row in g2.dropna(subset=["mean"]).iterrows()
+        )
+    st.markdown(
+        f"**Interpretation (filtered view):** {interpretation}\n\n"
+        "**Recommended action:** Stand up a 90-day onboarding program (setup call, first-invoice check, "
+        "expectation management) with month-3/6 cohort survival as its KPI."
+    )
 
 # --- Q3 ---------------------------------------------------------------------
 st.markdown("## Q3 · Internet service and protection add-ons")
@@ -234,7 +307,7 @@ if len(fdf):
         .agg(["count", "mean"])
         .reindex(["Fiber optic", "DSL", "No"])
     )
-    rate_bar(ax1, g3["mean"], g3["count"], "By internet service")
+    rate_bar(ax1, g3["mean"], g3["count"], "By internet service", overall_rate=overall)
     col_a.pyplot(fig1)
     plt.close(fig1)
 
@@ -244,6 +317,7 @@ if len(fdf):
 
     sub = fdf[fdf["InternetService"] != "No"].copy()
     fig2, ax2 = plt.subplots(figsize=(5.6, 4))
+    g3b = None
     if len(sub):
         g3b = (
             sub.assign(tier=sub.apply(tier, axis=1))
@@ -251,18 +325,42 @@ if len(fdf):
             .agg(["count", "mean"])
             .reindex(["None", "One", "Both"])
         )
-        rate_bar(ax2, g3b["mean"], g3b["count"], "By protection (Security/Support)")
+        rate_bar(
+            ax2,
+            g3b["mean"],
+            g3b["count"],
+            "By protection (Security/Support)",
+            overall_rate=overall,
+        )
     col_b.pyplot(fig2)
     plt.close(fig2)
-q3 = q_metrics["q03_metrics"]
-st.markdown(
-    f"**Interpretation:** Fiber churns at {q3['churn_rate_by_internet_service']['Fiber optic']['churn_rate']:.1%} "
-    f"vs {q3['churn_rate_by_internet_service']['DSL']['churn_rate']:.1%} for DSL, and customers with both "
-    f"protection add-ons churn at {q3['churn_rate_by_protection_tier']['Both Security & Support']['churn_rate']:.1%} "
-    f"vs {q3['churn_rate_by_protection_tier']['No protection']['churn_rate']:.1%} without them.\n\n"
-    "**Recommended action:** 1) Root-cause fiber quality; 2) bundle Security + Support into fiber "
-    "onboarding; 3) track the protected-vs-unprotected churn gap."
-)
+
+    fib = g3["mean"].get("Fiber optic")
+    dsl = g3["mean"].get("DSL")
+    both = g3b["mean"].get("Both") if g3b is not None else None
+    none_prot = g3b["mean"].get("None") if g3b is not None else None
+    parts = []
+    if pd.notna(fib) and pd.notna(dsl):
+        parts.append(f"Fiber churns at {fmt_pct(fib)} vs {fmt_pct(dsl)} for DSL")
+    else:
+        parts.append(
+            "internet churn in this view: "
+            + "; ".join(
+                f"{idx} {fmt_pct(row['mean'])} (n={int(row['count']):,})"
+                for idx, row in g3.dropna(subset=["mean"]).iterrows()
+            )
+        )
+    if pd.notna(both) and pd.notna(none_prot):
+        parts.append(
+            f"customers with both protection add-ons churn at {fmt_pct(both)} "
+            f"vs {fmt_pct(none_prot)} without them"
+        )
+    interpretation = "; ".join(parts)
+    st.markdown(
+        f"**Interpretation (filtered view):** {interpretation}.\n\n"
+        "**Recommended action:** 1) Root-cause fiber quality; 2) bundle Security + Support into fiber "
+        "onboarding; 3) track the protected-vs-unprotected churn gap."
+    )
 
 # --- Q4 ---------------------------------------------------------------------
 st.markdown("## Q4 · Revenue at risk by price band")
@@ -294,15 +392,21 @@ if len(fdf):
     style_ax(ax)
     st.pyplot(fig)
     plt.close(fig)
-q4 = q_metrics["q04_metrics"]
-st.markdown(
-    f"**Interpretation:** Churners carry higher bills (ARPU ${q4['arpu_churned']} vs "
-    f"${q4['arpu_retained']}); 30.5% of all MRR (${q4['churned_monthly_revenue']:,.0f}/mo, "
-    f"${q4['annualized_revenue_at_risk']:,.0f} annualized) sits in churned accounts, with the $70-95 "
-    "band holding half of it.\n\n"
-    "**Recommended action:** Weight retention spend by monthly revenue at risk; audit the $95+ "
-    "premium bundle's price-value gap; report MRR-at-risk as the primary KPI."
-)
+
+    mrr_share = mrr_at_risk / mrr if mrr else float("nan")
+    top_band = vals.idxmax() if vals.max() > 0 else None
+    interpretation = (
+        f"Churners carry higher bills (ARPU \\${arpu_churned:.0f} vs \\${arpu_retained:.0f} "
+        f"in this view); {fmt_pct(mrr_share)} of the filtered MRR (\\${mrr_at_risk:,.0f}/mo) "
+        f"sits in churned accounts"
+        + (f", with the {top_band} band holding the largest share" if top_band else "")
+        + "."
+    )
+    st.markdown(
+        f"**Interpretation (filtered view):** {interpretation}\n\n"
+        "**Recommended action:** Weight retention spend by monthly revenue at risk; audit the $95+ "
+        "premium bundle's price-value gap; report MRR-at-risk as the primary KPI."
+    )
 
 # --- Q5 ---------------------------------------------------------------------
 st.markdown("## Q5 · Payment method and billing mode")
@@ -326,18 +430,45 @@ if len(fdf):
         g5["mean"],
         g5["count"],
         "Churn rate by payment method",
+        overall_rate=overall,
     )
     st.pyplot(fig)
     plt.close(fig)
-q5 = q_metrics["q05_metrics"]
-st.markdown(
-    f"**Interpretation:** Electronic-check customers churn at "
-    f"{q5['churn_rate_by_payment_method']['Electronic check']['churn_rate']:.1%} (~3x automatic methods); "
-    f"e-check + paperless is the leakiest cell at "
-    f"{q5['electronic_check_x_paperless']['echeck_paperless_yes']:.1%}. Correlation, not proven causation.\n\n"
-    "**Recommended action:** A/B-test an incentive to migrate e-check customers to automatic "
-    "payments, starting with the e-check + paperless cell."
-)
+
+    echeck = g5["mean"].get("Electronic check")
+    auto_vals = [
+        g5["mean"].get(m)
+        for m in ["Bank transfer (automatic)", "Credit card (automatic)"]
+    ]
+    auto_min = min((r for r in auto_vals if pd.notna(r)), default=None)
+    echeck_paperless = fdf.loc[
+        (fdf["PaymentMethod"] == "Electronic check")
+        & (fdf["PaperlessBilling"] == "Yes"),
+        "churn_flag",
+    ]
+    cell_rate = (
+        float(echeck_paperless.mean()) if len(echeck_paperless) else float("nan")
+    )
+    parts = []
+    if pd.notna(echeck):
+        ratio = echeck / auto_min if auto_min is not None and auto_min > 0 else None
+        parts.append(
+            f"Electronic-check customers churn at {fmt_pct(echeck)}"
+            + (f" (~{ratio:.0f}x the automatic methods in this view)" if ratio else "")
+        )
+    if pd.notna(cell_rate):
+        parts.append(
+            f"e-check + paperless is the leakiest cell at {fmt_pct(cell_rate)}"
+        )
+    interpretation = (
+        "; ".join(parts) if parts else "not enough data under the current filters"
+    )
+    st.markdown(
+        f"**Interpretation (filtered view):** {interpretation}. "
+        "Correlation, not proven causation.\n\n"
+        "**Recommended action:** A/B-test an incentive to migrate e-check customers to automatic "
+        "payments, starting with the e-check + paperless cell."
+    )
 
 # --- Footer -----------------------------------------------------------------
 st.divider()

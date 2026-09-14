@@ -60,6 +60,24 @@ def call_api(payload: dict) -> tuple[dict | None, str | None]:
         return None, f"API request failed: {exc}"
 
 
+@st.cache_data(ttl=60)
+def load_risk_bands() -> dict:
+    """Fetch risk-band thresholds from the API model card (source of truth:
+    configs/model_config.json). Falls back to the documented defaults."""
+    bands = {"high_min_probability": 0.6, "medium_min_probability": 0.35}
+    try:
+        response = requests.get(f"{API_URL}/v1/model-card", timeout=5)
+        response.raise_for_status()
+        rb = response.json().get("risk_bands") or {}
+        if "high_min_probability" in rb:
+            bands["high_min_probability"] = float(rb["high_min_probability"])
+        if "medium_min_probability" in rb:
+            bands["medium_min_probability"] = float(rb["medium_min_probability"])
+    except requests.RequestException:
+        pass
+    return bands
+
+
 def build_payload(data: dict) -> tuple[dict, list[str]]:
     """Assemble the API payload and collect consistency warnings."""
     warnings: list[str] = []
@@ -168,6 +186,7 @@ if submitted:
     color = {"high": "#E4572E", "medium": "#E9A03B", "low": "#2E9E6B"}[
         risk["risk_level"]
     ]
+    bands = load_risk_bands()
 
     st.subheader("Prediction")
     m1, m2, m3 = st.columns(3)
@@ -182,7 +201,9 @@ if submitted:
     st.markdown(
         f"<div style='padding:12px;border-left:6px solid {color};background:#F8FAFC;'>"
         f"<b>Risk level: {risk['risk_level'].upper()}</b> "
-        f"(bands: high ≥ 60%, medium ≥ 35%, low &lt; 35%)</div>",
+        f"(bands: high ≥ {bands['high_min_probability']:.0%}, "
+        f"medium ≥ {bands['medium_min_probability']:.0%}, "
+        f"low &lt; {bands['medium_min_probability']:.0%})</div>",
         unsafe_allow_html=True,
     )
 
