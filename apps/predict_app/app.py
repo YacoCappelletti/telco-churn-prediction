@@ -9,6 +9,7 @@ Run: make predict-app   (expects the API on API_BASE_URL, default localhost:8000
 from __future__ import annotations
 
 import os
+from datetime import datetime
 
 import requests
 import streamlit as st
@@ -34,11 +35,13 @@ YES_NO = ["Yes", "No"]
 MULTI_LINES = ["No", "Yes", "No phone service"]
 
 
+@st.cache_data(ttl=30)
 def check_api() -> dict | None:
+    """Cached health probe (30s TTL) so reruns don't hammer the API."""
     try:
         response = requests.get(f"{API_URL}/health", timeout=5)
         response.raise_for_status()
-        return response.json()
+        return {**response.json(), "_checked_at": datetime.now().strftime("%H:%M:%S")}
     except requests.RequestException:
         return None
 
@@ -102,14 +105,18 @@ st.caption(
     "(target `Churn`, approved in Phase 3)."
 )
 
+if st.sidebar.button("Re-check API status"):
+    check_api.clear()
 health = check_api()
 if health and health.get("model_loaded"):
-    st.sidebar.success(f"API OK · model v{health['model_version']}")
+    st.sidebar.success(
+        f"API OK · model v{health['model_version']} · {health['_checked_at']}"
+    )
 elif health:
     st.sidebar.error("API up, but model NOT loaded")
 else:
     st.sidebar.error(f"API unreachable at {API_URL} - run `make api`")
-st.sidebar.info(f"API: `{API_URL}`")
+st.sidebar.info(f"API: `{API_URL}` · status cached 30s")
 
 with st.form("customer_form"):
     st.subheader("Customer profile")
@@ -190,20 +197,35 @@ if submitted:
 
     st.subheader("Prediction")
     m1, m2, m3 = st.columns(3)
-    m1.metric("Churn probability", f"{prob:.1%}")
-    m2.metric("Prediction (0.5 threshold)", risk["prediction"])
-    m3.metric(
+    m1.metric(
+        "Churn probability",
+        f"{prob:.1%}",
+        help="Probability of churn for the positive class (Churn = Yes).",
+    )
+    m2.metric(
         "Risk level",
         risk["risk_level"].upper(),
+        help=(
+            f"Business bands (from the API model card): high ≥ "
+            f"{bands['high_min_probability']:.0%}, medium ≥ "
+            f"{bands['medium_min_probability']:.0%}, low below that. "
+            "This band drives the business recommendation, not the 0.5 flag."
+        ),
+    )
+    m3.metric(
+        "Prediction (0.5 cut)",
+        risk["prediction"],
+        help=(
+            "Binary churn flag at a 0.5 decision threshold, tuned for "
+            "precision (test recall ≈ 0.53 at this cut). Retention teams "
+            "usually work off the risk bands above or a lower threshold to "
+            "prioritize coverage."
+        ),
     )
     st.progress(prob, text=f"Churn probability: {prob:.1%}")
-
     st.markdown(
-        f"<div style='padding:12px;border-left:6px solid {color};background:#F8FAFC;'>"
-        f"<b>Risk level: {risk['risk_level'].upper()}</b> "
-        f"(bands: high ≥ {bands['high_min_probability']:.0%}, "
-        f"medium ≥ {bands['medium_min_probability']:.0%}, "
-        f"low &lt; {bands['medium_min_probability']:.0%})</div>",
+        f"<div style='padding:6px 12px;border-left:6px solid {color};background:#F8FAFC;'>"
+        f"<b>{risk['risk_level'].upper()}</b> risk band</div>",
         unsafe_allow_html=True,
     )
 

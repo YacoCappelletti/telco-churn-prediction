@@ -57,8 +57,24 @@ class ContributingFactor(BaseModel):
     description: str
 
 
+class CustomerRisk(BaseModel):
+    """Risk summary block: probability, binary prediction and business band."""
+
+    churn_probability: float = Field(
+        ge=0,
+        le=1,
+        description="Churn probability (positive class = churn)",
+    )
+    prediction: Literal["Yes", "No"] = Field(
+        description="Churn prediction at the 0.5 decision threshold"
+    )
+    risk_level: Literal["high", "medium", "low"] = Field(
+        description="Business risk band (thresholds in configs/model_config.json)"
+    )
+
+
 class PredictionOutput(BaseModel):
-    customer_risk: dict = Field(description="Risk summary block")
+    customer_risk: CustomerRisk = Field(description="Risk summary block")
     contributing_factors: list[ContributingFactor]
     business_recommendation: str
     model_version: str
