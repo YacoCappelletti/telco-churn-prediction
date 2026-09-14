@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T17:24:46.379673+00:00",
+  "generated_at": "2026-09-14T14:30:22.648452+00:00",
   "recommended_target": "Churn",
   "alternative_targets": [
     "tenure",
@@ -85,7 +85,7 @@
   "business_justification": "The problem statement identifies customer churn as the primary problem (P1), and the business analysis quantified its impact: 26.5% of customers churn, taking 30.5% of monthly recurring revenue ($139K/mo, ~$1.67M annualized) with them. A churn probability directly powers the four recommended levers (contract migration, onboarding prioritization, fiber protection bundling, payment migration) by ranking accounts by expected risk x revenue at risk.",
   "technical_justification": "Binary classification with all-tabular features; moderate class imbalance (~26.5% positive) is manageable with stratified splits and PR-AUC-style metrics; probability outputs support threshold tuning to business trade-offs (retention capacity vs catch rate). Feature availability at scoring time is guaranteed because every feature is a current-customer attribute.",
   "data_quality_justification": "Churn has zero missing values and a consistent Yes/No domain. The only quality issue in the dataset (11 blank TotalCharges strings) affects a feature, not the target, and has a documented cleaning rule (impute tenure x MonthlyCharges). No outliers or inconsistent values exist in the flag.",
-  "data_dictionary_evidence": "data_dictionary.md marks Churn as the only outcome-like Status flag (Yes: 1,869 / No: 5,174), flags it feature_candidate=False (leakage if used as a feature) and lists it as a Phase 3 target candidate.",
+  "data_dictionary_evidence": "data_dictionary.md marks Churn as the only outcome-like Status flag (Yes: 1,869 / No: 5,174), flags it feature_candidate=False (leakage if used as a feature) and lists it as a target candidate.",
   "data_quality_evidence": "data_quality_report.md records the 26.54% / 73.46% split with imbalance ratio 2.77:1 (moderate), and confirms no missing values in Churn, no duplicated rows and no constant columns.",
   "business_analysis_evidence": "business_analysis_report.md quantifies the churn exposure: $139,131/mo revenue churned (30.5% of MRR), month-to-month contracts at 42.7% churn, first-year customers generating 55.5% of churn, fiber at 41.9% and e-check x paperless at 49.8% - all evidencing churn as the primary business problem and the segments a churn model must score.",
   "assumptions": [
@@ -115,5 +115,5 @@
     "Is there a business-defined retention capacity (number of customers that can be contacted per month) to calibrate the probability threshold?",
     "Should the model prioritize recall (catch more churners) or precision (cheaper campaigns) - i.e., what is the cost of a retention offer vs a lost customer?"
   ],
-  "approval_status": "pending_user_approval"
+  "status": "proposed"
 }

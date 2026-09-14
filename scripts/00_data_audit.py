@@ -1,11 +1,8 @@
-"""Phase 1 - Data audit for the Telco Customer Churn dataset.
+"""Data audit for the Telco Customer Churn dataset.
 
 Reads the raw dataset, profiles structure and data quality, and writes:
 - docs/data_quality_report.md
 - docs/json/data_quality_metrics.json
-
-This phase is diagnostic only: it does not select, define, or propose a target
-variable.
 """
 
 from __future__ import annotations
@@ -23,9 +20,10 @@ DOCS_DIR = ROOT / "docs"
 JSON_DIR = DOCS_DIR / "json"
 
 DATA_SOURCE_REF = (
-    "IBM Telco Customer Churn sample dataset (public sample data distributed by "
-    "IBM for Cognos Analytics / commonly mirrored on Kaggle as "
-    "'telco-customer-churn'). 7,043 customers of a fictional US telecom operator."
+    "IBM Telco Customer Churn sample dataset — Kaggle: "
+    "https://www.kaggle.com/datasets/blastchar/telco-customer-churn "
+    "(public sample data distributed by IBM for Cognos Analytics). "
+    "7,043 customers of a fictional US telecom operator."
 )
 
 
@@ -254,8 +252,12 @@ def main() -> None:
         f"- Imbalance ratio (No : Yes) = {imbalance_ratio:.2f} : 1 — a **moderate "
         "imbalance**. If this flag were ever used for predictive modeling, plain "
         "accuracy would be a misleading metric and stratified sampling / PR-style "
-        "metrics would be required. (Recorded here as a data-quality fact only; "
-        "no target decision is made in this phase.)\n"
+        "metrics would be required.\n"
+    )
+    md.append(
+        "![Class balance of the Churn flag](images/dq_class_balance.png)\n"
+        "*Figure 1 — Class balance of the outcome-like flag "
+        "(chart: `scripts/03_doc_charts.py`).*\n"
     )
 
     md.append("## 8. Basic distributions\n")
@@ -271,6 +273,10 @@ def main() -> None:
     md.append(
         "\n- `tenure` is fairly flat across 0-72 months (median 29), with a visible "
         "spike of brand-new customers (tenure < 3 months).\n"
+    )
+    md.append(
+        "![Numeric feature distributions](images/dq_numeric_distributions.png)\n"
+        "*Figure 2 — Numeric feature distributions (chart: `scripts/03_doc_charts.py`).*\n"
     )
     md.append("### Categorical columns (top values)\n")
     md.append("| Column | Top values (count) |")
@@ -292,7 +298,7 @@ def main() -> None:
         md.append(f"| `{k}` | ${fmt(v)} |")
     md.append("")
 
-    md.append("## 9. Initial hypotheses (to be validated in Phase 2)\n")
+    md.append("## 9. Initial hypotheses (validated in the business analysis report)\n")
     md.append(
         "1. **Contract commitment drives retention.** 55% of the base is on "
         "month-to-month contracts; lock-in contracts (1-2 years) plausibly reduce "
@@ -307,15 +313,7 @@ def main() -> None:
         "churn vs automatic payments.\n"
         "5. **Revenue concentration risk.** With ARPU around $65 and 26.5% of "
         "customers flagged as churned, the business impact of churn is material; "
-        "revenue at risk must be quantified in Phase 2.\n"
-    )
-
-    md.append("## 10. Phase 1 compliance note\n")
-    md.append(
-        "This report is diagnostic. **No target variable has been selected, defined, "
-        "ranked, or proposed in this phase.** The `Churn` distribution is reported "
-        "strictly as a data-quality characteristic (class imbalance), as required by "
-        "the audit checklist. Candidate-target analysis belongs to Phase 3.\n"
+        "revenue at risk must be quantified.\n"
     )
 
     (DOCS_DIR / "data_quality_report.md").write_text("\n".join(md))

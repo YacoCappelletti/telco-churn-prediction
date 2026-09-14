@@ -1,6 +1,6 @@
 # Data Dictionary - Telco Customer Churn
 
-> Generated: 2026-09-13 17:20 UTC · Source: `data/raw/Telco-Customer-Churn.csv` · Rows: 7,043 · Columns: 21
+> Generated: 2026-09-14 14:29 UTC · Source: `data/raw/Telco-Customer-Churn.csv` · Rows: 7,043 · Columns: 21
 
 ## Overview
 

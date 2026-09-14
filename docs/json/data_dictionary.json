@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-13T17:20:22.088578+00:00",
+  "generated_at": "2026-09-14T14:29:41.202917+00:00",
   "source": "data/raw/Telco-Customer-Churn.csv",
-  "data_source_reference": "IBM Telco Customer Churn sample dataset (public sample data distributed by IBM for Cognos Analytics / commonly mirrored on Kaggle as 'telco-customer-churn').",
+  "data_source_reference": "IBM Telco Customer Churn sample dataset — Kaggle: https://www.kaggle.com/datasets/blastchar/telco-customer-churn (public sample data distributed by IBM for Cognos Analytics).",
   "rows": 7043,
   "columns": [
     {
@@ -23,7 +23,7 @@
       "description": "Unique customer identifier with format 'NNNN-XXXX' (digits + 5 alphanumeric characters). One per customer.",
       "feature_candidate": false,
       "feature_reason": "100% unique per row: zero predictive value. Exclude from features; use only as a join key / traceability ID.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None. Randomly assigned identifier."
     },
     {
@@ -56,7 +56,7 @@
       "description": "Customer gender (Male / Female).",
       "feature_candidate": true,
       "feature_reason": "Standard demographic segmentation variable.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None. Known at signup."
     },
     {
@@ -89,7 +89,7 @@
       "description": "Binary flag marking customers aged 65+ (1 = senior, 0 = not). Numeric encoding of a boolean.",
       "feature_candidate": true,
       "feature_reason": "Age segment proxy; useful for demographic targeting of retention offers.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -122,7 +122,7 @@
       "description": "Whether the customer has a spouse/partner (Yes/No).",
       "feature_candidate": true,
       "feature_reason": "Household-size proxy; multi-person households churn less in telecom.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -155,7 +155,7 @@
       "description": "Whether the customer has dependents in the household (Yes/No).",
       "feature_candidate": true,
       "feature_reason": "Family bundle indicator; correlates with plan choice and stickiness.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -187,8 +187,8 @@
       "description": "Customer tenure with the company in completed months (0 = brand new, max 72). Integer.",
       "feature_candidate": true,
       "feature_reason": "Strong behavioural variable: contract age at the snapshot date.",
-      "target_candidate_phase3": true,
-      "target_note": "Conceivable as a retention-duration outcome (regression / survival analysis), but weaker direct business actionability; to be evaluated in Phase 3.",
+      "target_candidate": true,
+      "target_note": "Conceivable as a retention-duration outcome (regression / survival analysis), but weaker direct business actionability.",
       "leakage_risk": "None for churn-style prediction: tenure at scoring time is known. Perfectly collinear with TotalCharges accumulation."
     },
     {
@@ -221,7 +221,7 @@
       "description": "Whether the customer subscribes to home phone service (Yes/No).",
       "feature_candidate": true,
       "feature_reason": "Product-mix variable.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -260,7 +260,7 @@
       "description": "Phone add-on: multiple lines (Yes / No / No phone service). The 'No phone service' value encodes the structural dependency on PhoneService.",
       "feature_candidate": true,
       "feature_reason": "Product-mix variable with explicit structural category.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -299,7 +299,7 @@
       "description": "Internet technology: DSL, Fiber optic, or No internet service.",
       "feature_candidate": true,
       "feature_reason": "Core product line; largest monthly-charge differentiator (median $91.68 fiber vs $56.15 DSL).",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -338,7 +338,7 @@
       "description": "Internet add-on: online security (Yes / No / No internet service).",
       "feature_candidate": true,
       "feature_reason": "Value-added service; retention-relevant add-on.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -377,7 +377,7 @@
       "description": "Internet add-on: cloud backup (Yes / No / No internet service).",
       "feature_candidate": true,
       "feature_reason": "Value-added service; retention-relevant add-on.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -416,7 +416,7 @@
       "description": "Internet add-on: device protection plan (Yes / No / No internet service).",
       "feature_candidate": true,
       "feature_reason": "Value-added service; retention-relevant add-on.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -455,7 +455,7 @@
       "description": "Internet add-on: tech support plan (Yes / No / No internet service).",
       "feature_candidate": true,
       "feature_reason": "Service-quality proxy; retention-relevant add-on.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -494,7 +494,7 @@
       "description": "Entertainment add-on: streaming TV (Yes / No / No internet service).",
       "feature_candidate": true,
       "feature_reason": "Engagement/entertainment bundle variable.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -533,7 +533,7 @@
       "description": "Entertainment add-on: streaming movies (Yes / No / No internet service).",
       "feature_candidate": true,
       "feature_reason": "Engagement/entertainment bundle variable.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -572,7 +572,7 @@
       "description": "Contract type: Month-to-month, One year, or Two year. Defines the customer's commitment period and exit cost.",
       "feature_candidate": true,
       "feature_reason": "Strongest commitment/switching-cost variable in the dataset; 55% of the base is month-to-month.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None. Contract type is known at any scoring time."
     },
     {
@@ -605,7 +605,7 @@
       "description": "Whether the customer receives paperless billing (Yes/No).",
       "feature_candidate": true,
       "feature_reason": "Billing-behaviour variable; interacts with payment method.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -649,7 +649,7 @@
       "description": "Payment method: Electronic check, Mailed check, Bank transfer (automatic), or Credit card (automatic).",
       "feature_candidate": true,
       "feature_reason": "Distinguishes manual vs automatic payments - a known friction/retention lever.",
-      "target_candidate_phase3": false,
+      "target_candidate": false,
       "leakage_risk": "None."
     },
     {
@@ -681,8 +681,8 @@
       "description": "Recurring monthly charge for the customer's current bundle, in USD. Range $18.25-$118.75.",
       "feature_candidate": true,
       "feature_reason": "Core price variable; price-sensitivity analyses.",
-      "target_candidate_phase3": true,
-      "target_note": "Could serve as a price/ARPU regression outcome, but weak business actionability as a target; to be evaluated in Phase 3.",
+      "target_candidate": true,
+      "target_note": "Could serve as a price/ARPU regression outcome, but weak business actionability as a target.",
       "leakage_risk": "None. Known for any active customer at scoring time."
     },
     {
@@ -714,8 +714,8 @@
       "description": "Cumulative amount billed to the customer to date, in USD. Stored as text with 11 blank strings (all tenure = 0 customers). Range $18.80-$8,684.80, right-skewed.",
       "feature_candidate": true,
       "feature_reason": "Lifetime revenue proxy. Requires cleaning (numeric coercion + imputation of 11 blanks, e.g. tenure x MonthlyCharges).",
-      "target_candidate_phase3": true,
-      "target_note": "Candidate for a customer-value / revenue regression, but weak actionability as a direct target; to be evaluated in Phase 3.",
+      "target_candidate": true,
+      "target_note": "Candidate for a customer-value / revenue regression, but weak actionability as a direct target.",
       "leakage_risk": "Temporal-proxy risk: TotalCharges accumulates over tenure and is approximately tenure x MonthlyCharges, so it partially encodes tenure. It is available at scoring time for existing customers, but a model relying on it would not generalise to brand-new customers. Check collinearity before use."
     },
     {
@@ -748,9 +748,9 @@
       "description": "Outcome flag: whether the customer left the company within the observation window (Yes = churned, 26.54%; No = retained, 73.46%).",
       "feature_candidate": false,
       "feature_reason": "It is the only outcome-like flag in the dataset. If it were used as a feature for any model, it would leak the very outcome being predicted. Must be excluded from feature matrices.",
-      "target_candidate_phase3": true,
-      "target_note": "Only outcome-like flag in the dataset; natural candidate-target for retention problems. Selection/ranking belongs to Phase 3 - no decision is made here.",
-      "leakage_risk": "It IS the outcome. Using it as a feature would be target leakage; predicting it is the legitimate use, pending Phase 3 approval."
+      "target_candidate": true,
+      "target_note": "Only outcome-like flag in the dataset; natural candidate-target for retention problems.",
+      "leakage_risk": "It IS the outcome. Using it as a feature would be target leakage; predicting it is the legitimate use."
     }
   ],
   "grain": "one row = one customer snapshot (demographics, services, contract, billing, churn outcome flag)",

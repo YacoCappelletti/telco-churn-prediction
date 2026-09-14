@@ -1,6 +1,6 @@
 # Target Variable Proposal - Telco Customer Churn
 
-> Generated 2026-09-13 17:24 UTC · Target: **`Churn`** (binary classification, positive class: `Yes`) · Validated 2026-09-13 — record: `docs/json/target_approval.json`
+> Generated 2026-09-14 14:30 UTC · Target: **`Churn`** (binary classification, positive class: `Yes`) · Validated 2026-09-13 — record: `docs/json/target_approval.json`
 > Inputs: `problem_statement.md`, `business_analysis_report.md`, `data_dictionary.md`, `data_quality_report.md`, `json/insights.json`
 
 ## 1. Recommended target variable
@@ -50,9 +50,6 @@ Regression, Decision Tree, Random Forest) are all appropriate for this size
 outliers. The dataset's single quality issue (11 blank `TotalCharges`)
 affects a feature, not the target, and has a documented fix. Class imbalance
 (2.77:1) is moderate and manageable.
-
-![Class balance of the Churn flag](images/dq_class_balance.png)
-*Class balance of the recommended target (chart: `scripts/03_doc_charts.py`).*
 
 ## 4. Evidence trail
 

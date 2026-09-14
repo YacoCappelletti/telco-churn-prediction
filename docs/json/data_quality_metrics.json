@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-13T17:20:24.414296+00:00",
+  "generated_at": "2026-09-14T14:29:40.804412+00:00",
   "source": "data/raw/Telco-Customer-Churn.csv",
-  "data_source_reference": "IBM Telco Customer Churn sample dataset (public sample data distributed by IBM for Cognos Analytics / commonly mirrored on Kaggle as 'telco-customer-churn'). 7,043 customers of a fictional US telecom operator.",
+  "data_source_reference": "IBM Telco Customer Churn sample dataset — Kaggle: https://www.kaggle.com/datasets/blastchar/telco-customer-churn (public sample data distributed by IBM for Cognos Analytics). 7,043 customers of a fictional US telecom operator.",
   "rows": 7043,
   "columns": 21,
   "duplicate_rows": 0,

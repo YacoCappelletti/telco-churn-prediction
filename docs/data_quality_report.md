@@ -1,6 +1,6 @@
 # Data Quality Report - Telco Customer Churn
 
-> Generated: 2026-09-13 17:20 UTC · Source: `data/raw/Telco-Customer-Churn.csv` · Rows: 7,043 · Columns: 21
+> Generated: 2026-09-14 14:29 UTC · Source: `data/raw/Telco-Customer-Churn.csv` · Rows: 7,043 · Columns: 21
 
 ## 1. Dataset overview
 
@@ -96,7 +96,6 @@ No IQR outliers in any numeric column. `TotalCharges` is naturally right-skewed 
 | `DSL` | $56.15 |
 | `Fiber optic` | $91.68 |
 | `No` | $20.15 |
-
 | Contract | Median monthly charge |
 | -------- | --------------------: |
 | `Month-to-month` | $73.25 |

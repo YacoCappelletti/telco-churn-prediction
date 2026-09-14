@@ -1,4 +1,4 @@
-"""Phase 1 - Create the data dictionary for the Telco Customer Churn dataset.
+"""Create the data dictionary for the Telco Customer Churn dataset.
 
 Profiles every column of the raw dataset and writes:
 - docs/data_dictionary.md
@@ -6,10 +6,8 @@ Profiles every column of the raw dataset and writes:
 
 Per column the dictionary records: description, business meaning, inferred type,
 possible values / ranges, missing and unique counts, example values, whether it
-can be used as a feature, whether it could be a candidate target in Phase 3,
-and potential data-leakage risk.
-
-This phase does not select or propose a target variable.
+can be used as a feature, whether it could be a candidate target, and potential
+data-leakage risk.
 """
 
 from __future__ import annotations
@@ -27,9 +25,9 @@ DOCS_DIR = ROOT / "docs"
 JSON_DIR = DOCS_DIR / "json"
 
 DATA_SOURCE_REF = (
-    "IBM Telco Customer Churn sample dataset (public sample data distributed by "
-    "IBM for Cognos Analytics / commonly mirrored on Kaggle as "
-    "'telco-customer-churn')."
+    "IBM Telco Customer Churn sample dataset — Kaggle: "
+    "https://www.kaggle.com/datasets/blastchar/telco-customer-churn "
+    "(public sample data distributed by IBM for Cognos Analytics)."
 )
 
 # Human-curated column metadata, grounded in the profiling report values.
@@ -98,8 +96,7 @@ COLUMN_META = {
         "target": True,
         "target_note": (
             "Conceivable as a retention-duration outcome (regression / survival "
-            "analysis), but weaker direct business actionability; to be evaluated "
-            "in Phase 3."
+            "analysis), but weaker direct business actionability."
         ),
         "leakage": (
             "None for churn-style prediction: tenure at scoring time is known. "
@@ -232,7 +229,7 @@ COLUMN_META = {
         "target": True,
         "target_note": (
             "Could serve as a price/ARPU regression outcome, but weak business "
-            "actionability as a target; to be evaluated in Phase 3."
+            "actionability as a target."
         ),
         "leakage": "None. Known for any active customer at scoring time.",
     },
@@ -251,7 +248,7 @@ COLUMN_META = {
         "target": True,
         "target_note": (
             "Candidate for a customer-value / revenue regression, but weak "
-            "actionability as a direct target; to be evaluated in Phase 3."
+            "actionability as a direct target."
         ),
         "leakage": (
             "Temporal-proxy risk: TotalCharges accumulates over tenure and is "
@@ -276,12 +273,11 @@ COLUMN_META = {
         "target": True,
         "target_note": (
             "Only outcome-like flag in the dataset; natural candidate-target for "
-            "retention problems. Selection/ranking belongs to Phase 3 - no "
-            "decision is made here."
+            "retention problems."
         ),
         "leakage": (
             "It IS the outcome. Using it as a feature would be target leakage; "
-            "predicting it is the legitimate use, pending Phase 3 approval."
+            "predicting it is the legitimate use."
         ),
     },
 }
@@ -348,7 +344,7 @@ def profile_column(df: pd.DataFrame, col: str) -> dict:
     out["description"] = meta["description"]
     out["feature_candidate"] = meta["feature"]
     out["feature_reason"] = meta["feature_reason"]
-    out["target_candidate_phase3"] = bool(meta.get("target", False))
+    out["target_candidate"] = bool(meta.get("target", False))
     if meta.get("target_note"):
         out["target_note"] = meta["target_note"]
     out["leakage_risk"] = meta["leakage"]
@@ -446,9 +442,9 @@ def main() -> None:
         md.append(
             f"- **Feature candidate:** {'Yes' if c['feature_candidate'] else 'No'} - {c['feature_reason']}"
         )
-        tgt = "Yes" if c["target_candidate_phase3"] else "No"
+        tgt = "Yes" if c["target_candidate"] else "No"
         note = f" {c['target_note']}" if c.get("target_note") else ""
-        md.append(f"- **Candidate target (Phase 3):** {tgt}.{note}")
+        md.append(f"- **Candidate target:** {tgt}.{note}")
         md.append(f"- **Leakage risk:** {c['leakage_risk']}")
         md.append("")
 
@@ -480,7 +476,7 @@ def main() -> None:
         "| 2 | `SeniorCitizen` | Numeric encoding of a boolean | Stored as 0/1 int | Treat as categorical boolean in analysis and UI |"
     )
     md.append(
-        "| 3 | `Churn` | Moderate class imbalance | Yes = 26.54% vs No = 73.46% (ratio 2.77 : 1) | If modeled, use stratified splits and imbalance-aware metrics (no target decision in this phase) |"
+        "| 3 | `Churn` | Moderate class imbalance | Yes = 26.54% vs No = 73.46% (ratio 2.77 : 1) | If modeled, use stratified splits and imbalance-aware metrics |"
     )
     md.append(
         "| 4 | `TotalCharges` | Right skew (accumulation) | Max $8,684.80 vs median $1,397.48 | Not an error: reflects long-tenure customers; consider log transform or capping in modeling |"
@@ -513,7 +509,7 @@ def main() -> None:
     (DOCS_DIR / "data_dictionary.md").write_text("\n".join(md))
     print("Wrote docs/data_dictionary.md")
     print("Wrote docs/json/data_dictionary.json")
-    target_candidates = [c["name"] for c in columns if c["target_candidate_phase3"]]
+    target_candidates = [c["name"] for c in columns if c["target_candidate"]]
     print(
         f"Columns={len(columns)} | target_candidate flags (unranked)={target_candidates}"
     )

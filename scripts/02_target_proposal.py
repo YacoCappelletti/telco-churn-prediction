@@ -1,14 +1,13 @@
-"""Phase 3 - Target variable proposal for the Telco Customer Churn dataset.
+"""Target variable proposal for the Telco Customer Churn dataset.
 
-Reads the Phase 1/2 evidence (problem statement, business analysis, data
+Reads the evidence base (problem statement, business analysis, data
 dictionary, data quality report, insights), evaluates candidate target
 variables against 14 criteria, and writes:
 - docs/json/target_proposal.json
-- docs/json/target_approval.json  (approval_status = "pending")
+- docs/json/target_approval.json  (definition record; only created if missing)
 - docs/target_proposal.md
 
-No model is trained in this phase. Execution stops until the user approves
-the target variable (docs/json/target_approval.json -> "approved").
+No model is trained by this script.
 """
 
 from __future__ import annotations
@@ -169,7 +168,7 @@ def main() -> None:
         "data_dictionary_evidence": (
             "data_dictionary.md marks Churn as the only outcome-like Status flag "
             "(Yes: 1,869 / No: 5,174), flags it feature_candidate=False (leakage if used "
-            "as a feature) and lists it as a Phase 3 target candidate."
+            "as a feature) and lists it as a target candidate."
         ),
         "data_quality_evidence": (
             "data_quality_report.md records the 26.54% / 73.46% split with imbalance "
@@ -210,22 +209,29 @@ def main() -> None:
             "Is there a business-defined retention capacity (number of customers that can be contacted per month) to calibrate the probability threshold?",
             "Should the model prioritize recall (catch more churners) or precision (cheaper campaigns) - i.e., what is the cost of a retention offer vs a lost customer?",
         ],
-        "approval_status": "pending_user_approval",
+        "status": "proposed",
     }
     (JSON_DIR / "target_proposal.json").write_text(
         json.dumps(proposal, indent=2, ensure_ascii=False) + "\n"
     )
 
-    approval = {
-        "approved_target": None,
-        "approved_problem_type": None,
-        "approval_status": "pending",
-        "user_comments": "",
-        "approval_timestamp": None,
-    }
-    (JSON_DIR / "target_approval.json").write_text(
-        json.dumps(approval, indent=2, ensure_ascii=False) + "\n"
-    )
+    # Definition record: never overwrite an existing one (a re-proposal must
+    # not revoke a validated target).
+    approval_path = JSON_DIR / "target_approval.json"
+    if not approval_path.exists():
+        approval = {
+            "approved_target": None,
+            "approved_problem_type": None,
+            "approval_status": "pending",
+            "user_comments": "",
+            "approval_timestamp": None,
+        }
+        approval_path.write_text(
+            json.dumps(approval, indent=2, ensure_ascii=False) + "\n"
+        )
+        print("Wrote docs/json/target_approval.json (pending validation)")
+    else:
+        print("docs/json/target_approval.json already exists - left untouched")
 
     # --- Markdown ------------------------------------------------------------
     cand_rows = "\n".join(
@@ -233,9 +239,21 @@ def main() -> None:
         f"{'Clean' if c['name'] == 'Churn' else c['data_quality'].split(',')[0]} |"
         for c in candidates
     )
+    validated_line = ""
+    approval_path = JSON_DIR / "target_approval.json"
+    if approval_path.exists():
+        record = json.loads(approval_path.read_text())
+        if record.get("approval_status") == "approved" and record.get(
+            "approval_timestamp"
+        ):
+            validated_line = (
+                f" · Validated {record['approval_timestamp'][:10]} — record: "
+                "`docs/json/target_approval.json`"
+            )
+
     md = f"""# Target Variable Proposal - Telco Customer Churn
 
-> Phase 3 deliverable · Generated {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")} · Status: **PENDING USER APPROVAL**
+> Generated {datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")} · Target: **`Churn`** (binary classification, positive class: `Yes`){validated_line}
 > Inputs: `problem_statement.md`, `business_analysis_report.md`, `data_dictionary.md`, `data_quality_report.md`, `json/insights.json`
 
 ## 1. Recommended target variable
@@ -261,8 +279,8 @@ leakage, temporal consistency, ethical/legal restrictions, and ML feasibility
 
 ### Business
 
-The primary problem (Phase 1) is customer churn; the business analysis
-(Phase 2) quantified it: 26.5% churn rate, $139,131/month churned revenue
+The primary problem (problem statement) is customer churn; the business
+analysis quantified it: 26.5% churn rate, $139,131/month churned revenue
 (30.5% of MRR, ~$1.67M annualized), concentrated in month-to-month contracts
 (42.7% churn), first-year customers (55.5% of churn), unprotected fiber users
 and electronic-check payers. A churn probability is the single most useful
@@ -289,8 +307,8 @@ affects a feature, not the target, and has a documented fix. Class imbalance
 ## 4. Evidence trail
 
 - **Data dictionary** (`data_dictionary.md`): Churn is the only outcome-like
-  flag; flagged `feature_candidate = No` (leakage if used as a feature) and as
-  a Phase 3 target candidate.
+  flag; flagged `feature_candidate = No` (leakage if used as a feature) and
+  marked as target candidate.
 - **Data quality report** (`data_quality_report.md`): 26.54%/73.46% split,
   imbalance ratio 2.77:1, no missing values in Churn, clean primary key.
 - **Business analysis** (`business_analysis_report.md`): revenue at risk,
@@ -320,7 +338,7 @@ affects a feature, not the target, and has a documented fix. Class imbalance
    collinearity treatment; available at scoring time for existing customers.
 4. `customerID` excluded (unique ID, zero predictive value).
 
-## 7. Open questions for the user
+## 7. Open questions considered
 
 1. Are demographic attributes (gender, SeniorCitizen) acceptable as model
    features, or should they be excluded by fairness policy?
@@ -335,16 +353,15 @@ affects a feature, not the target, and has a documented fix. Class imbalance
 `TotalCharges` (value regression) - each rated lower on business alignment
 and/or actionability; details in `docs/json/target_proposal.json`.
 
-## 9. Approval status
+## 9. Definition record
 
-**`pending_user_approval`** - no model training will start until the user
-explicitly approves (see `docs/json/target_approval.json`).
+The validated target (`Churn`, positive class `Yes`) is recorded with
+timestamp in `docs/json/target_approval.json`.
 """
     (DOCS_DIR / "target_proposal.md").write_text(md)
 
     print("Wrote docs/target_proposal.md")
     print("Wrote docs/json/target_proposal.json")
-    print("Wrote docs/json/target_approval.json (status=pending)")
     print(json.dumps(computed, indent=1))
 
 
