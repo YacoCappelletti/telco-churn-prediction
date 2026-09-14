@@ -177,7 +177,7 @@ k4.metric(
 )
 k5.metric(
     "ARPU churned vs retained",
-    f"${arpu_churned:.0f} vs ${arpu_retained:.0f}",
+    f"\\${arpu_churned:.0f} vs \\${arpu_retained:.0f}",
     help="Mean monthly bill of churned vs retained customers",
 )
 
