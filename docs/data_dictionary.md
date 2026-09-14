@@ -11,7 +11,7 @@
 | Grain | One row = one customer snapshot (demographics, services, contract, billing, churn outcome flag) |
 | Duplicate rows | 0 |
 | Primary key | `customerID` (100% unique, 0% null) |
-| Data source reference | IBM Telco Customer Churn sample dataset (public sample data distributed by IBM for Cognos Analytics / commonly mirrored on Kaggle as 'telco-customer-churn'). |
+| Data source reference | IBM Telco Customer Churn sample dataset — Kaggle: https://www.kaggle.com/datasets/blastchar/telco-customer-churn (public sample data distributed by IBM for Cognos Analytics). |
 | Inferred purpose | Telecom customer-base snapshot designed for retention analysis: each record bundles who the customer is, what they subscribed to, what they pay, and whether they churned |
 
 ## Column Summary

@@ -5,7 +5,7 @@
 ## 1. Dataset overview
 
 - **Rows:** 7,043 · **Columns:** 21
-- **Data source reference:** IBM Telco Customer Churn sample dataset (public sample data distributed by IBM for Cognos Analytics / commonly mirrored on Kaggle as 'telco-customer-churn'). 7,043 customers of a fictional US telecom operator.
+- **Data source reference:** IBM Telco Customer Churn sample dataset — Kaggle: https://www.kaggle.com/datasets/blastchar/telco-customer-churn (public sample data distributed by IBM for Cognos Analytics). 7,043 customers of a fictional US telecom operator.
 - **Grain:** one row = one customer snapshot (contract, services, billing, churn flag).
 - **Customers with zero tenure (brand new):** 11
 

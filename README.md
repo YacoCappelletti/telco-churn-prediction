@@ -1,13 +1,11 @@
 # Telco Marketing Campaign - End-to-End Churn Analytics
 
 End-to-end analytical solution over the **IBM Telco Customer Churn** dataset
-(7,043 customers × 21 columns): data audit, business analysis, an
+([Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn),
+7,043 customers × 21 columns): data audit, business analysis, an
 **approved-target churn model** served through an API, a predictive Streamlit
 app, a business dashboard, and Docker deployment.
 
-> Process note: the target variable (`Churn`, binary classification) was
-> proposed in Phase 3 and **explicitly approved by the user** before any
-> model training (see `docs/json/target_approval.json`).
 
 ## Key findings
 
