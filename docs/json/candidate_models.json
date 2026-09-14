@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T17:27:37.032415+00:00",
+  "generated_at": "2026-09-14T09:44:16.509445+00:00",
   "target": "Churn",
   "target_approval_reference": "docs/json/target_approval.json",
   "primary_metric": "average_precision",
