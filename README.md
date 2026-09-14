@@ -153,23 +153,3 @@ make train && make test
 | [`docs/deployment_documentation.md`](docs/deployment_documentation.md) | Docker architecture, ports and operations |
 | [`docs/predict_app_documentation.md`](docs/predict_app_documentation.md) / [`dashboard_documentation.md`](docs/dashboard_documentation.md) | Guides for both Streamlit apps |
 
-## Engineering highlights
-
-- **Target validated before modeling:** the target variable was evaluated on
-  14 criteria (business alignment, leakage, data quality, ...) and the
-  definition confirmed before any training — recorded with timestamp in
-  `docs/json/target_approval.json`.
-- **No notebooks:** every number in the reports is reproducible from a script
-  in `/scripts` (audit, dictionary, 5 business questions, training,
-  evaluation).
-- **Tested:** 20 pytest tests covering data contracts, model artifacts and API
-  behavior — including regression tests for the explanation logic (protective
-  one-hot categories must appear in `decreases_risk`).
-- **Explainability from model internals:** per-feature logit contributions
-  aggregated by feature group, with protective (risk-lowering) categorical
-  drivers preserved and exposed through the API.
-- **Single source of truth for risk bands:** thresholds live in
-  `configs/model_config.json`, are served by `/v1/model-card` and rendered by
-  the app — no hardcoded thresholds in the UI.
-- **Reproducible environments:** pinned `requirements.txt`, dedicated venv,
-  Docker Compose for the full stack from a clean clone.
