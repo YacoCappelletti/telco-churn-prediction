@@ -11,6 +11,9 @@ recommendation.
 
 ## 2. Endpoints
 
+![Interactive API docs (Swagger UI)](images/ui_api_swagger.png)
+*Swagger UI served at `/docs` with the full request/response schemas.*
+
 ### `GET /health`
 
 Service + model status.

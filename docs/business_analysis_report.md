@@ -54,6 +54,9 @@ the documented cleaning rule for the 11 blank `TotalCharges` values
 
 Overall churn: 26.5%. Evidence: `q01_output.md`, `q01_chart.png`.
 
+![Churn rate by contract type](images/q01_chart.png)
+*Figure Q1 — Month-to-month churns at 15x the two-year rate and carries ~87% of churned revenue.*
+
 **Interpretation.** Exit cost is the strongest structural protection: two-year
 customers churn at 1/15th of the month-to-month rate. Worse for the business,
 month-to-month customers also pay the highest median charges - the
@@ -78,6 +81,9 @@ prioritizing high-value accounts (link to Q4). Track churn-by-contract monthly.
 Median tenure at churn: **10 months** vs 38 for retained customers.
 Customers in their first 12 months account for **55.5%** of all churn; 613
 customers sit at exactly 1 month of tenure. Evidence: `q02_output.md`.
+
+![Churn rate by tenure bucket](images/q02_chart.png)
+*Figure Q2 — Risk decays monotonically ~8x from the first 6 months to year 5+.*
 
 **Interpretation.** This is lifecycle risk, not customer-quality risk: risk
 falls monotonically (~8x from first 6 months to year 5+). The first billing
@@ -107,6 +113,9 @@ Every add-on repeats the pattern (e.g., OnlineSecurity: 41.8% without vs
 14.6% with). Fiber churned MRR: **$114,300/month** (40.3% of fiber revenue).
 Evidence: `q03_output.md`, `q03_chart.png`.
 
+![Churn by internet service and protection tier](images/q03_chart.png)
+*Figure Q3 — The premium product (fiber) is the leakiest; protection add-ons correlate with 4x lower churn.*
+
 **Interpretation.** The flagship premium product is the leakiest. Two
 mechanisms are plausible and non-exclusive: (a) genuine stickiness from
 bundling, and (b) selection - dissatisfied fiber customers buy fewer add-ons.
@@ -131,6 +140,9 @@ Total MRR **$456,117**; churned MRR **$139,131 (30.5%)**; annualized
 **$1.67M**. ARPU churned **$74.44** vs retained **$61.27** (+21.5%).
 Evidence: `q04_output.md`, `q04_chart.png`.
 
+![Monthly revenue at risk by price band](images/q04_chart.png)
+*Figure Q4 — The $70-95 band alone holds half of the at-risk revenue.*
+
 **Interpretation.** Churn is value-weighted, not just volumetric: the
 $70-95 band alone holds half of all at-risk revenue. Retention spend should
 follow dollars, not headcount.
@@ -152,6 +164,9 @@ Paperless billing: Yes 33.6% vs No 16.3%. Compounding cell - e-check ×
 paperless: **49.8% churn** (vs 32.7% e-check × paper, 21.9% auto × paperless,
 11.8% auto × paper). E-check churned MRR: **$84,289/month**. Evidence:
 `q05_output.md`, `q05_chart.png`.
+
+![Churn rate by payment method](images/q05_chart.png)
+*Figure Q5 — Electronic-check customers churn ~3x the automatic methods.*
 
 **Interpretation.** Manual payment correlates with ~3x churn vs automatic;
 the effect compounds with paperless billing. Hypothesis: manual payment

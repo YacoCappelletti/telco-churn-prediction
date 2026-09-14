@@ -69,14 +69,18 @@ on the untouched test set:
 
 **Confusion matrix (threshold 0.5):** TN 926 · FP 109 · FN 165 · TP 209.
 
+![Final model performance](images/model_performance_charts.png)
+*Figure M1 — Single test evaluation: PR curve, ROC curve, confusion matrix and permutation importance (top 12).*
+
 **Business view:** ranking customers by predicted risk, the top 10% catch
 **27.8% of all churners (lift 2.78x vs random)**. At ~$74 ARPU for churners
 (Phase 2), a campaign touching the top decile addresses ≈ $38.7K of the
 $139K/mo at-risk revenue.
 
 **Calibration:** Brier 0.138 vs base-rate-implied 0.199 → probabilities are
-usable for ranking and rough expected-loss sizing; a proper reliability curve
-is plotted in `model_performance_charts.png` (via the PR/ROC panels).
+usable for ranking and rough expected-loss sizing. There is no dedicated
+reliability-curve panel; `model_performance_charts.png` (above) contains the
+PR/ROC curves, the confusion matrix and the permutation importance.
 
 ## 7. Feature importance (permutation importance, test set, 10 repeats, scoring = AP)
 

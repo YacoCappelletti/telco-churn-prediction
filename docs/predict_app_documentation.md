@@ -24,6 +24,12 @@ A form-based app for retention teams to score one customer at a time:
      payment migration — the four Phase 2 levers)
    - Model name/version and scoring timestamp for traceability
 
+![Predictive app - input form](images/ui_predict_form.png)
+*Customer profile form (left sidebar: live API status).*
+
+![Predictive app - scored customer](images/ui_predict_result.png)
+*Prediction output: probability, risk level with bands, 0.5-cut context, contributing factors and recommendation.*
+
 ## 2. Configuration
 
 - `API_BASE_URL` (env or `.env`): API address. Defaults to

@@ -51,6 +51,9 @@ No IQR outliers in any numeric column. `TotalCharges` is naturally right-skewed 
 - The only outcome-like flag in the dataset is `Churn` (Yes: 1,869 = 26.54%, No: 5,174 = 73.46%).
 - Imbalance ratio (No : Yes) = 2.77 : 1 — a **moderate imbalance**. If this flag were ever used for predictive modeling, plain accuracy would be a misleading metric and stratified sampling / PR-style metrics would be required. (Recorded here as a data-quality fact only; no target decision is made in this phase.)
 
+![Class balance of the Churn flag](images/dq_class_balance.png)
+*Figure 1 — Class balance of the outcome-like flag (chart: `scripts/03_doc_charts.py`).*
+
 ## 8. Basic distributions
 
 ### Numeric columns
@@ -61,6 +64,9 @@ No IQR outliers in any numeric column. `TotalCharges` is naturally right-skewed 
 | `MonthlyCharges` | 18.25 | 35.50 | 70.35 | 89.85 | 118.75 | 64.76 |
 
 - `tenure` is fairly flat across 0-72 months (median 29), with a visible spike of brand-new customers (tenure < 3 months).
+
+![Numeric feature distributions](images/dq_numeric_distributions.png)
+*Figure 2 — Numeric feature distributions (chart: `scripts/03_doc_charts.py`).*
 
 ### Categorical columns (top values)
 

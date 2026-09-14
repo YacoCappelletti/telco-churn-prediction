@@ -31,6 +31,9 @@ The dataset contains rich pre-outcome context (contract, services, payment,
 tenure, charges) that plausibly explains *why* customers leave - making this
 problem both diagnosable (descriptive) and predictable (predictive).
 
+![Class balance of the Churn flag](images/dq_class_balance.png)
+*Figure 1 — Class balance of the outcome-like `Churn` flag (diagnostic context only; no target decision in this phase).*
+
 ### P2. Revenue exposure is quantifiable but not yet localized
 
 The base generates roughly $456K in monthly recurring revenue (7,043 × $64.76

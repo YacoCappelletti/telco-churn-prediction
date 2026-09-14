@@ -24,6 +24,12 @@ questions:
   4. A/B-tested migration from electronic check to automatic payments.
   Retention spend weighted by monthly revenue at risk.
 
+![Business dashboard - KPIs and executive summary](images/ui_dashboard_overview.png)
+*Filtered KPIs and the global Phase-2 executive summary.*
+
+![Business dashboard - Q1 churn by contract](images/ui_dashboard_question.png)
+*Per-question section: live chart + interpretation that follows the sidebar filters + recommended action.*
+
 ## 2. KPIs (respond to filters)
 
 | KPI | Definition |

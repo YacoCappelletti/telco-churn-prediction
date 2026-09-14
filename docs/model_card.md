@@ -37,6 +37,9 @@ predictive app.
 
 Confusion matrix (threshold 0.5): TN 926 · FP 109 · FN 165 · TP 209.
 
+![Final model performance](images/model_performance_charts.png)
+*Visual summary: PR curve, ROC curve, confusion matrix and permutation importance (single test evaluation). Full report: `docs/model_report.md`.*
+
 ## Key drivers (permutation importance, AP drop)
 
 1. `tenure` (0.24) — early-tenure customers are the risk core

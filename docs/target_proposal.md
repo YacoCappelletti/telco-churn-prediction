@@ -52,6 +52,9 @@ outliers. The dataset's single quality issue (11 blank `TotalCharges`)
 affects a feature, not the target, and has a documented fix. Class imbalance
 (2.77:1) is moderate and manageable.
 
+![Class balance of the Churn flag](images/dq_class_balance.png)
+*Class balance of the recommended target (chart: `scripts/03_doc_charts.py`).*
+
 ## 4. Evidence trail
 
 - **Data dictionary** (`data_dictionary.md`): Churn is the only outcome-like

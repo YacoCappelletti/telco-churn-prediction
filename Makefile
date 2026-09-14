@@ -2,7 +2,7 @@ PY       := venv/bin/python
 PIP      := venv/bin/pip
 API_PORT := 8000
 
-.PHONY: setup audit dictionary problem business proposal train api predict-app dashboard docker-build docker-up docker-down test clean
+.PHONY: setup audit dictionary problem business proposal doc-charts train api predict-app dashboard docker-build docker-up docker-down test clean
 
 setup:
 	python3 -m venv venv
@@ -33,6 +33,10 @@ train:
 	$(PY) scripts/train_baseline.py
 	$(PY) scripts/train_candidate_models.py
 	$(PY) scripts/evaluate_final_model.py
+
+## Documentation charts (data-audit visuals for the reports)
+doc-charts:
+	$(PY) scripts/03_doc_charts.py
 
 ## Phase 5-7
 api:
