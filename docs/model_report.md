@@ -33,7 +33,7 @@ avoid leakage.
 - **Numeric** (`tenure`, `MonthlyCharges`, `TotalCharges`, `SeniorCitizen`): median imputation + standard scaling (needed by logistic regression, harmless for trees).
 - **Categorical** (15 columns: demographics, services, contract, billing): one-hot encoding with `handle_unknown="ignore"`.
 - Raw-data fix (documented in the data quality report): 11 blank `TotalCharges` values imputed as `tenure × MonthlyCharges` before splitting.
-- Resulting design matrix: 19 features → 27 encoded columns.
+- Resulting design matrix: 19 features → 45 encoded columns (4 numeric + 41 one-hot; see `models/model_metadata.json`).
 
 ## 5. Models tested (5-fold stratified CV on train, then validation)
 

@@ -56,7 +56,7 @@ Service + model status.
     "risk_level": "high"
   },
   "contributing_factors": [
-    {"feature": "Contract", "direction": "increases_risk", "description": "Contract type = Month-to-month pushes churn risk up"},
+    {"feature": "Contract", "direction": "increases_risk", "description": "Contract pushes churn risk up"},
     {"feature": "tenure", "direction": "increases_risk", "description": "Tenure pushes churn risk up"}
   ],
   "business_recommendation": "Contact this customer within 48 hours...",
@@ -96,9 +96,12 @@ model card) live in `docs/json/api_examples.json`.
 
 ## 6. Tests
 
-`tests/test_api.py` (7 tests, `make test`): health, valid prediction
-(invariant checks), high-risk profile classification, invalid categorical
-(422), out-of-range numeric (422), missing field (422), model card contents.
+`tests/test_api.py` (8 tests, `make test` — 20 in the whole project): health,
+valid prediction (invariant checks), high-risk profile classification,
+protective-category explanations (two-year contract / DSL / add-ons must
+appear as `decreases_risk` — regression test for the one-hot contribution
+logic), invalid categorical (422), out-of-range numeric (422), missing field
+(422), model card contents.
 
 ## 7. Implementation notes
 

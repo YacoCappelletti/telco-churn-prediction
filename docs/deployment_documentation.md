@@ -52,7 +52,13 @@ the app always finds the API on boot.
 
 ## 5. Reproducibility from a clean environment
 
-1. Fresh clone + `data/raw/Telco-Customer-Churn.csv` present.
+1. Fresh clone. The raw dataset and the model artifacts are gitignored, so:
+   - Download `Telco-Customer-Churn.csv` from
+     [Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+     into `data/raw/`.
+   - Run `make setup && make train` to regenerate `models/*.joblib` (needs the
+     CSV). Without this step `docker compose up --build` builds an image
+     whose API starts **degraded** (503 on `/v1/predict`).
 2. `make setup` (local venv) or `docker compose up --build` (containers).
 3. Reproduce analysis and artifacts from scratch:
    ```bash

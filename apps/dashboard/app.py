@@ -251,7 +251,8 @@ if len(fdf):
 st.markdown("## Q2 · Churn across the customer lifecycle")
 st.caption("Business lever: 90-day onboarding program for early-tenure customers.")
 if len(fdf):
-    bins = [0, 6, 12, 24, 48, 60, 72]
+    # Same tenure-bucket edges as the Phase 2 script (scripts/q02_tenure_vs_churn.py)
+    bins = [0, 7, 13, 25, 49, 61, 72]
     labels = ["0-6", "7-12", "13-24", "25-48", "49-60", "61-72"]
     cut = pd.cut(fdf["tenure"], bins=bins, labels=labels)
     g2 = (

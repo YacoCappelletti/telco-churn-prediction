@@ -1,6 +1,6 @@
 # Dashboard Documentation - Telco Customer Churn
 
-> Phase 7 deliverable · App: `apps/dashboard/app.py` · Run: `make dashboard` (Streamlit, port 8501 default)
+> Phase 7 deliverable · App: `apps/dashboard/app.py` · Run: `make dashboard` (Streamlit, port 8501 by default — use a different port if the predict app is running on 8501, e.g. `streamlit run apps/dashboard/app.py --server.port 8502`; in Docker Compose it is served on host port 8512)
 
 ## 1. Purpose
 
@@ -44,9 +44,11 @@ questions:
 | Q4 · Revenue at risk | Churned MRR by price band | Revenue-weighted budget |
 | Q5 · Payment friction | Churn rate by payment method | Payment migration A/B |
 
-Each section shows the chart, the key numbers from the Phase 2 metrics
-(`docs/json/q0*_metrics.json`), an **Interpretation** paragraph and a
-**Recommended action**.
+Each section shows the chart and an **Interpretation** paragraph whose key
+numbers are computed **live from the filtered base** (they follow the sidebar
+filters), plus a **Recommended action**. The Phase 2 metrics files
+(`docs/json/q0*_metrics.json`) remain the reproducible benchmark for the
+full, unfiltered dataset.
 
 ## 4. Filters
 
@@ -58,15 +60,20 @@ dataset with the documented TotalCharges cleaning rule):
 - **Payment method** (multi-select)
 - **Max tenure** (slider 1-72)
 
-A warning appears when the filter leaves fewer than 50 customers.
+A warning appears when the filter leaves fewer than 50 customers, and an
+error banner appears when no customers match the filters (charts and
+per-question interpretations are hidden in that case).
 
 ## 5. Data and provenance
 
 - Data: `data/raw/Telco-Customer-Churn.csv` loaded via the documented cleaning
   rule (11 blank TotalCharges → tenure × MonthlyCharges).
-- Narrative text: `docs/json/insights.json` (Phase 2).
-- Segment benchmarks quoted in interpretations come from the Phase 2 scripts
-  (`scripts/q0*.py`), so the full-data numbers stay reproducible.
+- Narrative text: `docs/json/insights.json` (Phase 2) — used only for the
+  Executive summary, which is the **global Phase-2 synthesis** and is labeled
+  as not affected by the sidebar filters.
+- Per-question interpretations: computed live from the filtered base (same
+  tenure-bucket edges as the Phase 2 script `scripts/q02_tenure_vs_churn.py`),
+  so chart and text always agree.
 - Cross-sectional caveat is displayed in the footer: correlations are not
   causal effects.
 

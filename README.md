@@ -101,10 +101,23 @@ make test           # 20 tests (data, model, API)
 make api            # API on :8000 (Swagger at /docs)
 make predict-app    # Streamlit app on :8501
 make dashboard      # Business dashboard (run separately: set a different port)
-
-# Or everything at once with Docker
-make docker-up      # API :8010 · app :8511 · dashboard :8512 (see deployment docs)
 ```
+
+### Run the full stack with Docker Compose
+
+```bash
+docker compose up -d --build   # one shared image → api + predict_app + dashboard
+# API (Swagger):  http://localhost:8010/docs
+# Predictive app: http://localhost:8511
+# Dashboard:      http://localhost:8512
+docker compose down            # stop everything
+```
+
+> Prerequisites on a fresh clone: the raw dataset and the model artifacts are
+> gitignored — download the CSV from
+> [Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
+> into `data/raw/` and run `make train` before building; both are bundled
+> into the image at build time. Shortcut: `make docker-up`.
 
 Reproduce the full analysis from scratch:
 

@@ -2,6 +2,7 @@
 
 > Phase 3 deliverable · Generated 2026-09-13 17:24 UTC · Status: **PENDING USER APPROVAL**
 > Inputs: `problem_statement.md`, `business_analysis_report.md`, `data_dictionary.md`, `data_quality_report.md`, `json/insights.json`
+> **Update:** approved by the user on 2026-09-13 — see `docs/json/target_approval.json` (status `approved`, target `Churn`, classification). The "pending" status below is kept as the historical record of this phase's deliverable.
 
 ## 1. Recommended target variable
 
